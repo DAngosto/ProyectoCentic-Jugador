@@ -46,9 +46,14 @@ export class Stage2Component implements OnInit {
 
   randomCards: Card[] = [];
 
+  urlFilesSplitted;
+
+
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
+
+
 
       //Sacamos la invitación y la validaciónn de los parametros que le llegan, si no llega nada redirigimos a la pagina error
       this.activatedRoute.queryParams.subscribe(params =>{
@@ -89,19 +94,19 @@ export class Stage2Component implements OnInit {
             }
 
         
-            var urlFilesSplitted = urlFiles.split(',');
+            this.urlFilesSplitted = urlFiles.split(',');
             //for (let i=0; i<urlFilesSplitted.length;i++){
             //}
             this.url1 = '../../../assets/dorsoTransparente.png';
-            this.url2 = urlFilesSplitted[0];
+            this.url2 = this.gameConfig.cardCover;
             this.url3 = '../../../assets/dorsoTransparente.png';
             this.url4 = '../../../assets/dorsoTransparente.png';
-            this.url5 = urlFilesSplitted[1];
+            this.url5 = this.gameConfig.cardCover;
             this.url6 = '../../../assets/dorsoTransparente.png';
-            this.url7 = urlFilesSplitted[2];
+            this.url7 = this.gameConfig.cardCover;
             this.url8 = '../../../assets/dorsoTransparente.png';
             this.url9 = '../../../assets/dorsoTransparente.png';
-            this.url10 = urlFilesSplitted[3];
+            this.url10 = this.gameConfig.cardCover;
             this.url11 = '../../../assets/dorsoTransparente.png';
             this.url12 = '../../../assets/dorsoTransparente.png';
             
@@ -154,6 +159,43 @@ export class Stage2Component implements OnInit {
     return cardAux;
   }
 
+  changeUrl(id, reset){
+    switch(id){
+      case 0:
+        if (reset){
+          this.url2 = this.gameConfig.cardCover;
+        }
+        else{
+          this.url2 = this.urlFilesSplitted[id];
+        }
+        break;
+      case 1:
+      if (reset){
+        this.url5 = this.gameConfig.cardCover;
+      }
+      else{
+        this.url5 = this.urlFilesSplitted[id];
+      }
+      break;
+      case 2:
+      if (reset){
+        this.url7 = this.gameConfig.cardCover;
+      }
+      else{
+        this.url7 = this.urlFilesSplitted[id];
+      }
+      break;
+      case 3:
+      if (reset){
+        this.url10 = this.gameConfig.cardCover;
+      }
+      else{
+        this.url10 = this.urlFilesSplitted[id];
+      }
+      break;
+    }
+  }
+
   sawCard(id){
     if (!this.checkCardsNext){
 
@@ -169,6 +211,12 @@ export class Stage2Component implements OnInit {
         this.checkCardsNext = true;
         this.cardCheck1 = this.randomCards[id]._id;
         this.cardCheck2 = id;
+
+        this.changeUrl(id,false);
+
+
+
+
       }else{
         console.log("carta ya validada");
       }
@@ -197,11 +245,19 @@ export class Stage2Component implements OnInit {
             this.correctIDs.push(this.cardCheck1);
             this.counter++;
             console.log("son la misma");
+            console.log(this.correctIDs.length);
+            this.changeUrl(id,false);
             if(this.counter==2){
               this.router.navigate(["stage3"]);
             }
           }else{
+            this.changeUrl(id,false);
+            console.log(this.correctIDs.length);
             console.log("no son la misma");
+            setTimeout(()=>{
+              this.changeUrl(id,true);
+              this.changeUrl(this.cardCheck2,true);
+          },500);
           }
         }
         

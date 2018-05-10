@@ -46,6 +46,8 @@ export class Stage1Component implements OnInit {
 
   randomCards: Card[] = [];
 
+  urlFilesSplitted;
+
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) { }
 
@@ -82,16 +84,16 @@ export class Stage1Component implements OnInit {
             }
 
         
-            var urlFilesSplitted = urlFiles.split(',');
+            this.urlFilesSplitted = urlFiles.split(',');
             //for (let i=0; i<urlFilesSplitted.length;i++){
             //}
             this.url1 = '../../../assets/dorsoTransparente.png';
             this.url2 = '../../../assets/dorsoTransparente.png';
             this.url3 = '../../../assets/dorsoTransparente.png';
             this.url4 = '../../../assets/dorsoTransparente.png';
-            this.url5 = urlFilesSplitted[0];
+            this.url5 = this.gameConfig.cardCover;
             this.url6 = '../../../assets/dorsoTransparente.png';
-            this.url7 = urlFilesSplitted[1];
+            this.url7 = this.gameConfig.cardCover;
             this.url8 = '../../../assets/dorsoTransparente.png';
             this.url9 = '../../../assets/dorsoTransparente.png';
             this.url10 = '../../../assets/dorsoTransparente.png';
@@ -145,6 +147,28 @@ export class Stage1Component implements OnInit {
     return cardAux;
   }
 
+
+  changeUrl(id, reset){
+    switch(id){
+      case 0:
+        if (reset){
+          this.url5 = this.gameConfig.cardCover;
+        }
+        else{
+          this.url5 = this.urlFilesSplitted[id];
+        }
+        break;
+      case 1:
+      if (reset){
+        this.url7 = this.gameConfig.cardCover;
+      }
+      else{
+        this.url7 = this.urlFilesSplitted[id];
+      }
+      break;
+    }
+  }
+
   sawCard(id){
     if (!this.checkCardsNext){
 
@@ -160,7 +184,14 @@ export class Stage1Component implements OnInit {
         this.checkCardsNext = true;
         this.cardCheck1 = this.randomCards[id]._id;
         this.cardCheck2 = id;
+
+        this.changeUrl(id,false);
+
+
+
+
       }else{
+        this.changeUrl(id,true);
         console.log("carta ya validada");
       }
 
@@ -189,16 +220,22 @@ export class Stage1Component implements OnInit {
             this.counter++;
             console.log("son la misma");
             console.log(this.correctIDs.length);
+            this.changeUrl(id,false);
             if(this.counter==1){
               this.router.navigate(["stage2"]);
             }
           }else{
+            this.changeUrl(id,false);
             console.log(this.correctIDs.length);
             console.log("no son la misma");
+            setTimeout(()=>{
+              this.changeUrl(id,true);
+          },1500);
           }
         }
         
       }else{
+        this.changeUrl(id,true);
         console.log("carta ya validada");
       }
 
