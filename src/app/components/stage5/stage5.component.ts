@@ -48,7 +48,7 @@ export class Stage5Component implements OnInit {
         localStorage.setItem('validation', JSON.stringify({ validation:this.validation}));
         //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
           //this.getPointsValue();
-          this._dataService.getInfo().subscribe(response=>{
+          
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
             this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
@@ -108,7 +108,7 @@ export class Stage5Component implements OnInit {
       //}else{
       //  this.router.navigate(["error"]);
       //}
-     });
+    
 
 
     

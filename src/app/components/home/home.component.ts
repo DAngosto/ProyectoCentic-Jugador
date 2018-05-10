@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
   titulo:string="ucam2";
 
 
-  constructor(private _dataService: DataService, private routes:Router, private activatedRoute: ActivatedRoute) {
+  constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) {
       //Sacamos la invitación y la validaciónn de los parametros que le llegan, si no llega nada redirigimos a la pagina error
       this.activatedRoute.queryParams.subscribe(params =>{
         localStorage.setItem('invitation', null);
@@ -32,11 +32,11 @@ export class HomeComponent implements OnInit {
         localStorage.setItem('validation', null);
         this.validation = params["validation"];
         localStorage.setItem('validation', JSON.stringify({ validation:this.validation}));
-        if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
+        //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
           this.getPointsValue();
-      }else{
-        this.routes.navigate(["error"]);
-      }
+      //}else{
+        //this.router.navigate(["error"]);
+      //}
      });
    }  
 
@@ -72,6 +72,10 @@ export class HomeComponent implements OnInit {
            }
     );
     this.sawConfirmation();
+  }
+
+  startGame(){
+    this.router.navigate(["stage1"]);
   }
 
 

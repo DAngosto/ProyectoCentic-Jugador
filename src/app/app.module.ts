@@ -52,8 +52,9 @@ import { Stage5Component } from './components/stage5/stage5.component';
       
       {
         path: '',
-        component: Stage1Component
+        component: HomeComponent
       },
+      { path: 'home', component: HomeComponent },
       { path: 'stage1', component: Stage1Component },
       { path: 'stage2', component: Stage2Component },
       { path: 'stage3', component: Stage3Component },
