@@ -3,15 +3,15 @@
   <!--[ngStyle]="{background: 'url(/assets/' + imgR + ')', width: '700px', height: '700px'}"-->
   <div id="photos" >
     <img [src] = "url1">
-    <img [src] = "url2">
+    <img [src] = "url2" (click)= "sawCard(0)">
     <img [src] = "url3">
     <img [src] = "url4">
-    <img [src] = "url5" (click)= "sawCard(0)">
-    <img [src] = "url6">
-    <img [src] = "url7" (click)= "sawCard(1)">
-    <img [src] = "url8">
+    <img [src] = "url5" (click)= "sawCard(1)">
+    <img [src] = "url6" (click)= "sawCard(2)">
+    <img [src] = "url7" (click)= "sawCard(3)">
+    <img [src] = "url8" (click)= "sawCard(4)">
     <img [src] = "url9">
-    <img [src] = "url10">
+    <img [src] = "url10" (click)= "sawCard(5)">
     <img [src] = "url11">
     <img [src] = "url12">
   </div>

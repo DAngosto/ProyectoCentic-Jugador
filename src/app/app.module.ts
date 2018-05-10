@@ -19,6 +19,10 @@ import { animationSuccess } from './components/lottie-animation/lottie-animation
 import { ErrorComponent } from './components/error/error.component';
 import { Stage1Component } from './components/stage1/stage1.component';
 import { Stage6Component } from './components/stage6/stage6.component';
+import { Stage2Component } from './components/stage2/stage2.component';
+import { Stage3Component } from './components/stage3/stage3.component';
+import { Stage4Component } from './components/stage4/stage4.component';
+import { Stage5Component } from './components/stage5/stage5.component';
 
 
 
@@ -31,7 +35,11 @@ import { Stage6Component } from './components/stage6/stage6.component';
     animationSuccess,
     ErrorComponent,
     Stage1Component,
-    Stage6Component
+    Stage6Component,
+    Stage2Component,
+    Stage3Component,
+    Stage4Component,
+    Stage5Component
 
   ],
   imports: [
@@ -44,9 +52,13 @@ import { Stage6Component } from './components/stage6/stage6.component';
       
       {
         path: '',
-        component: Stage6Component
+        component: Stage1Component
       },
       { path: 'stage1', component: Stage1Component },
+      { path: 'stage2', component: Stage2Component },
+      { path: 'stage3', component: Stage3Component },
+      { path: 'stage4', component: Stage4Component },
+      { path: 'stage5', component: Stage5Component },
       { path: 'stage6', component: Stage6Component },
       {
         path: 'error',

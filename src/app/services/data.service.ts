@@ -96,7 +96,7 @@ export class DataService {
             
             this.messageSource2.next(response['config']);
 
-
+            //En vez de coger el 0 sería aquella coleccion que pasen por parametros
             var cardsCollection = this.collections[0].cards.split(',');
             for(let i=0;i<cardsCollection.length;i++){
                 for(let j=0;j<this.allCards.length;j++){
@@ -130,6 +130,7 @@ export class DataService {
         this.cards.splice(rand,1);
         this.cardsDisplayed.push(cardAux);
         this.cardsDisplayed.push(cardAux);
+        console.log("cartas en el servicio para mostrar" + this.cardsDisplayed.length);
     }
 
     /*

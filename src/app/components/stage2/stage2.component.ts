@@ -9,11 +9,11 @@ import { ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
-  selector: 'app-stage1',
-  templateUrl: './stage1.component.html',
-  styleUrls: ['./stage1.component.scss']
+  selector: 'app-stage2',
+  templateUrl: './stage2.component.html',
+  styleUrls: ['./stage2.component.scss']
 })
-export class Stage1Component implements OnInit {
+export class Stage2Component implements OnInit {
   url1: string = "";
   url2: string = "";
   url3: string = "";
@@ -63,24 +63,26 @@ export class Stage1Component implements OnInit {
               else if (i==(iniLength-1)){
                 urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL;
               }
+              else{
+                urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
+              }
               arrayAux.splice(rand,1);
             }
-            console.log("llego aqui");
 
         
             var urlFilesSplitted = urlFiles.split(',');
             //for (let i=0; i<urlFilesSplitted.length;i++){
             //}
             this.url1 = '../../../assets/dorsoTransparente.png';
-            this.url2 = '../../../assets/dorsoTransparente.png';
+            this.url2 = urlFilesSplitted[0];
             this.url3 = '../../../assets/dorsoTransparente.png';
             this.url4 = '../../../assets/dorsoTransparente.png';
-            this.url5 = urlFilesSplitted[0];
+            this.url5 = urlFilesSplitted[1];
             this.url6 = '../../../assets/dorsoTransparente.png';
-            this.url7 = urlFilesSplitted[1];
+            this.url7 = urlFilesSplitted[2];
             this.url8 = '../../../assets/dorsoTransparente.png';
             this.url9 = '../../../assets/dorsoTransparente.png';
-            this.url10 = '../../../assets/dorsoTransparente.png';
+            this.url10 = urlFilesSplitted[3];
             this.url11 = '../../../assets/dorsoTransparente.png';
             this.url12 = '../../../assets/dorsoTransparente.png';
             
@@ -136,8 +138,7 @@ export class Stage1Component implements OnInit {
   }
 
   sawCard(id){
-    console.log("cambiaría de fase");
-    this.router.navigate(["stage2"]);
+    this.router.navigate(["stage3"]);
   }
 
 /*
