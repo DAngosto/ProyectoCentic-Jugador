@@ -34,6 +34,19 @@ export class Stage1Component implements OnInit {
   invitation:string = "";
   validation:string = "";
 
+
+  checkCardsNext: boolean = false;
+
+  cardCheck1: string;
+  cardCheck2: number;
+
+  correctIDs: string[] = [];
+
+  counter: number = 0;
+
+  randomCards: Card[] = [];
+
+
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -57,6 +70,8 @@ export class Stage1Component implements OnInit {
             var iniLength = arrayAux.length;
             for (let i=0; i<iniLength;i++){
               var rand = Math.floor(Math.random() * arrayAux.length);
+              this.randomCards.push(arrayAux[rand]);
+
               if (i==0) {
                 urlFiles = 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
               }
@@ -65,7 +80,6 @@ export class Stage1Component implements OnInit {
               }
               arrayAux.splice(rand,1);
             }
-            console.log("llego aqui");
 
         
             var urlFilesSplitted = urlFiles.split(',');
@@ -83,10 +97,6 @@ export class Stage1Component implements OnInit {
             this.url10 = '../../../assets/dorsoTransparente.png';
             this.url11 = '../../../assets/dorsoTransparente.png';
             this.url12 = '../../../assets/dorsoTransparente.png';
-            
-      
-            console.log("cartas en el stage 1 "  + this.cards.length);
-            console.log(this.gameConfig);
             /*
       
       
@@ -136,8 +146,68 @@ export class Stage1Component implements OnInit {
   }
 
   sawCard(id){
-    console.log("cambiaría de fase");
-    this.router.navigate(["stage2"]);
+    if (!this.checkCardsNext){
+
+      var cardDone = false;
+      for(var i=0;i<this.correctIDs.length;i++){
+        if(this.correctIDs[i]==this.randomCards[id]._id){
+          cardDone=true;
+          break;
+        }
+      }
+      if(!cardDone){
+        console.log("guardo el id");
+        this.checkCardsNext = true;
+        this.cardCheck1 = this.randomCards[id]._id;
+        this.cardCheck2 = id;
+      }else{
+        console.log("carta ya validada");
+      }
+
+
+      
+
+    }else{
+      
+      //Primero comprobamos si esa carta ya se ha completado
+      var cardDone = false;
+      for(var i=0;i<this.correctIDs.length;i++){
+        if(this.correctIDs[i]==this.randomCards[id]._id){
+          cardDone=true;
+          break;
+        }
+      }
+      //En el caso de que no se haya compeltado procedemos a comprobar si es la msima carta
+      if(!cardDone){
+        this.checkCardsNext = false;
+        if(this.cardCheck2==id){
+          this.checkCardsNext = true;
+        }
+        else{
+          if(this.randomCards[id]._id==this.cardCheck1){
+            this.correctIDs.push(this.cardCheck1);
+            this.counter++;
+            console.log("son la misma");
+            console.log(this.correctIDs.length);
+            if(this.counter==1){
+              this.router.navigate(["stage2"]);
+            }
+          }else{
+            console.log(this.correctIDs.length);
+            console.log("no son la misma");
+          }
+        }
+        
+      }else{
+        console.log("carta ya validada");
+      }
+
+
+      
+
+    }
+    
+    //this.router.navigate(["stage2"]);
   }
 
 /*

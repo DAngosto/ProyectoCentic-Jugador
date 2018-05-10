@@ -34,6 +34,18 @@ export class Stage2Component implements OnInit {
   invitation:string = "";
   validation:string = "";
 
+  checkCardsNext: boolean = false;
+
+  cardCheck1: string;
+  cardCheck2: number;
+
+  correctIDs: string[] = [];
+
+  counter: number = 0;
+
+
+  randomCards: Card[] = [];
+
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) { }
 
   ngOnInit() {
@@ -55,8 +67,15 @@ export class Stage2Component implements OnInit {
             var arrayAux = this.cards.slice(0);
             var urlFiles: string;
             var iniLength = arrayAux.length;
+
+
+  
+            
             for (let i=0; i<iniLength;i++){
               var rand = Math.floor(Math.random() * arrayAux.length);
+
+              this.randomCards.push(arrayAux[rand]);
+
               if (i==0) {
                 urlFiles = 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
               }
@@ -87,8 +106,6 @@ export class Stage2Component implements OnInit {
             this.url12 = '../../../assets/dorsoTransparente.png';
             
             console.log(this.cards);
-            console.log("cartas en el stage 1 "  + this.cards.length);
-            console.log(this.gameConfig);
             /*
       
       
@@ -138,7 +155,66 @@ export class Stage2Component implements OnInit {
   }
 
   sawCard(id){
-    this.router.navigate(["stage3"]);
+    if (!this.checkCardsNext){
+
+      var cardDone = false;
+      for(var i=0;i<this.correctIDs.length;i++){
+        if(this.correctIDs[i]==this.randomCards[id]._id){
+          cardDone=true;
+          break;
+        }
+      }
+      if(!cardDone){
+        console.log("guardo el id");
+        this.checkCardsNext = true;
+        this.cardCheck1 = this.randomCards[id]._id;
+        this.cardCheck2 = id;
+      }else{
+        console.log("carta ya validada");
+      }
+
+
+      
+
+    }else{
+      
+      //Primero comprobamos si esa carta ya se ha completado
+      var cardDone = false;
+      for(var i=0;i<this.correctIDs.length;i++){
+        if(this.correctIDs[i]==this.randomCards[id]._id){
+          cardDone=true;
+          break;
+        }
+      }
+      //En el caso de que no se haya compeltado procedemos a comprobar si es la msima carta
+      if(!cardDone){
+        this.checkCardsNext = false;
+        if(this.cardCheck2==id){
+          this.checkCardsNext = true;
+        }
+        else{
+          if(this.randomCards[id]._id==this.cardCheck1){
+            this.correctIDs.push(this.cardCheck1);
+            this.counter++;
+            console.log("son la misma");
+            if(this.counter==2){
+              this.router.navigate(["stage3"]);
+            }
+          }else{
+            console.log("no son la misma");
+          }
+        }
+        
+      }else{
+        console.log("carta ya validada");
+      }
+
+
+      
+
+    }
+    
+    //this.router.navigate(["stage2"]);
   }
 
 /*

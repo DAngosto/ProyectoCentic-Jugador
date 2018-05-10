@@ -127,17 +127,10 @@ export class DataService {
     addNewCardDisplayed(){
         var rand = Math.floor(Math.random() * this.cards.length);
         var cardAux = this.cards[rand];
-        console.log("servicio");
-        console.log(this.cards.length);
         this.cards.splice(rand,1);
-        console.log(this.cards.length);
 
         this.cardsDisplayed.push(cardAux);
         this.cardsDisplayed.push(cardAux);
-        console.log("nueva carta metida");
-        console.log(cardAux); 
-
-        console.log("cartas en el servicio para mostrar" + this.cardsDisplayed.length);
     }
 
     /*
