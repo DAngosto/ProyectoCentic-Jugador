@@ -53,6 +53,11 @@ export class Stage1Component implements OnInit {
 
   userScore;
 
+  arcade: boolean;
+  survival: boolean;
+  comodinMultiplicador:boolean;
+  jokerMultiWastedHere:boolean = false;
+  comodinVolteo: boolean;
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService) { }
 
@@ -69,6 +74,23 @@ export class Stage1Component implements OnInit {
         //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
           //this.getPointsValue();
           this._dataService.getInfo().subscribe(response=>{
+
+            localStorage.setItem('comodinMulti', "1");
+            localStorage.setItem('comodinVolteo', "1");
+            this.comodinMultiplicador = true;
+            this.comodinVolteo = true;
+            var gamemode = Number(localStorage.getItem("gamemode"));
+            if(gamemode==0){
+                this.arcade = true;
+                this.survival = false;
+
+            }
+            else if(gamemode==1){
+              this.survival = true;
+              this.arcade = false;
+              
+            }
+
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
             this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
@@ -140,6 +162,34 @@ export class Stage1Component implements OnInit {
     
   
   
+  }
+
+  useJoker(idComodin){
+    switch (idComodin){
+      case 1:
+        var aux = Number(localStorage.getItem('arcadesuccesspoints')) + Number(localStorage.getItem('arcadesuccesspoints'));
+        this._dataService.setNewSuccessPoints(false,aux.toString());
+        this.comodinMultiplicador=false;
+        localStorage.setItem('comodinMulti', "0");
+        this.jokerMultiWastedHere=true;
+        this._gameplayService.jokerMultiSound();
+        break;
+      case 2:
+      this._gameplayService.jokerVolteoSound();
+      for(let i=0;i<this.urlFilesSplitted.length;i++){
+        this.changeUrl(i,false);
+      }
+      
+      setTimeout(()=>{
+        this.comodinVolteo = false;
+        localStorage.setItem('comodinVolteo', "0");
+        for(let i=0;i<this.urlFilesSplitted.length;i++){
+          this.changeUrl(i,true);
+        }
+      },3000);
+      break;
+    }
+
   }
 
   setCard(_id,name,history,tags,fileURL,itemType, publish) : Card{
@@ -233,6 +283,9 @@ export class Stage1Component implements OnInit {
             this.userScore = this._gameplayService.getActualScore();
             if(this.counter==1){
               this._gameplayService.changeStageSound();
+              if(this.jokerMultiWastedHere){
+                this._dataService.setNewSuccessPoints(true, 0);
+              }
               setTimeout(()=>{
                 this.router.navigate(["stage2"]);
               },1000);

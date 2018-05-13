@@ -97,6 +97,20 @@ export class DataService {
             this.messageSource2.next(response['config']);
 
             //En vez de coger el 0 sería aquella coleccion que pasen por parametros
+            if(this.collections[0].gamemode==0){
+                console.log("arcade");
+                localStorage.setItem("gamemode", "0");
+                localStorage.setItem("successpoints", this.messageSource2.value['arcadesuccesspoints']);
+                localStorage.setItem("failpoints", this.messageSource2.value['arcadefailpoints']);
+            }
+            else if(this.collections[0].gamemode==1){
+                console.log("survival");
+                localStorage.setItem("gamemode", "1");
+                localStorage.setItem("successpoints", this.messageSource2.value['survivalsuccesspoints']);
+                localStorage.setItem("failpoints", this.messageSource2.value['survivalfailpoints']);
+                localStorage.setItem("survivallives", this.messageSource2.value['survivallives']);
+            }
+
             var cardsCollection = this.collections[0].cards.split(',');
             for(let i=0;i<cardsCollection.length;i++){
                 for(let j=0;j<this.allCards.length;j++){
@@ -123,6 +137,18 @@ export class DataService {
         return configAux;
     }
     */
+
+    
+
+    setNewSuccessPoints(reset, value){
+        if (reset){
+            var aux = Number(localStorage.getItem("successpoints")) - (Number(localStorage.getItem("successpoints"))/2);
+            localStorage.setItem("successpoints", aux.toString());
+        }
+        else{
+            localStorage.setItem("successpoints", value);
+        }
+    }
 
     addNewCardDisplayed(){
         var rand = Math.floor(Math.random() * this.cards.length);

@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
 import {AppSettings} from '../appSettings';
@@ -6,33 +6,50 @@ import {AppSettings} from '../appSettings';
 
 
 @Injectable()
-export class GameplayService {
+export class GameplayService implements OnInit{
 
 
   score: number = 0;
   private messageSource = new BehaviorSubject<number>(this.score);
   userScore = this.messageSource.asObservable();
 
+  gamemode: number;
+  scoreIncrement: number; 
+  scoreDecrement: number; 
+  numberLives: number;
+
 
   
 
   constructor() { }
 
+  ngOnInit() {
+
+    /*
+    console.log("puntos arcade servicio" + localStorage.getItem("arcadesuccesspoints"));
+    this.gamemode = Number(localStorage.getItem("gamemode"));
+    if(this.gamemode==0){
+      this.scoreIncrement = Number(localStorage.getItem("arcadesuccesspoints"));
+      this.scoreDecrement = Number(localStorage.getItem("arcadefailpoints"));
+    }
+    else if(this.gamemode==1){
+      this.scoreIncrement = Number(localStorage.getItem("survivalsuccesspoints"));
+      this.scoreDecrement = Number(localStorage.getItem("survivalfailpoints"));
+      this.numberLives = Number(localStorage.getItem("survivallives"));
+    }
+    */
+  }
 
   incrementScore(){
-    this.score = this.score + AppSettings.SCORE_INCREMENT;
-    console.log("score en el servicio" + this.score);
+    this.score = this.score + Number(localStorage.getItem("successpoints"));
   }
 
   decrementScore(){
-    if((this.score-AppSettings.SCORE_INCREMENT)<0){
-
+    if((this.score-Number(localStorage.getItem("failpoints")))<0){
       this.score = 0;
-      console.log("score en el servicio" + this.score);
     }
     else{
-      this.score = this.score - AppSettings.SCORE_DECREMENT;
-      console.log("score en el servicio" + this.score);
+      this.score = this.score - Number(localStorage.getItem("failpoints"));
     }
   }
 
@@ -65,6 +82,20 @@ export class GameplayService {
   finalSound(){
     var audio = new Audio();
     audio.src = "../../assets/finalpage.wav";
+    audio.load();
+    audio.play();
+  }
+
+  jokerMultiSound(){
+    var audio = new Audio();
+    audio.src = "../../assets/jokerMulti.wav";
+    audio.load();
+    audio.play();
+  }
+
+  jokerVolteoSound(){
+    var audio = new Audio();
+    audio.src = "../../assets/jokerVolteo.wav";
     audio.load();
     audio.play();
   }

@@ -52,6 +52,13 @@ export class Stage6Component implements OnInit {
 
   userScore;
 
+  arcade: boolean;
+  survival: boolean;
+  comodinMultiplicador:boolean;
+  jokerMultiWastedHere:boolean = false;
+  comodinVolteo: boolean;
+
+
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService) { }
 
@@ -68,6 +75,32 @@ export class Stage6Component implements OnInit {
         //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
           //this.getPointsValue();
          
+          if(Number(localStorage.getItem('comodinMulti'))==0){
+            this.comodinMultiplicador = false;
+          }else{
+            this.comodinMultiplicador = true;
+          }
+          if(Number(localStorage.getItem('comodinVolteo'))==0){
+            this.comodinVolteo = false;
+          }else{
+            this.comodinVolteo = true;
+          }
+
+          var gamemode = Number(localStorage.getItem("gamemode"));
+          if(gamemode==0){
+              this.arcade = true;
+              this.survival = false;
+
+          }
+          else if(gamemode==1){
+            this.survival = true;
+            this.arcade = false;
+            
+          }
+
+
+
+
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
 
@@ -155,6 +188,35 @@ export class Stage6Component implements OnInit {
     
   
   
+  }
+
+
+  useJoker(idComodin){
+    switch (idComodin){
+      case 1:
+        var aux = Number(localStorage.getItem('arcadesuccesspoints')) + Number(localStorage.getItem('arcadesuccesspoints'));
+        this._dataService.setNewSuccessPoints(false,aux.toString());
+        this.comodinMultiplicador=false;
+        localStorage.setItem('comodinMulti', "0");
+        this.jokerMultiWastedHere=true;
+        this._gameplayService.jokerMultiSound();
+        break;
+      case 2:
+      this._gameplayService.jokerVolteoSound();
+      for(let i=0;i<this.urlFilesSplitted.length;i++){
+        this.changeUrl(i,false);
+      }
+      
+      setTimeout(()=>{
+        this.comodinVolteo = false;
+        localStorage.setItem('comodinVolteo', "0");
+        for(let i=0;i<this.urlFilesSplitted.length;i++){
+          this.changeUrl(i,true);
+        }
+      },3000);
+      break;
+    }
+
   }
 
   setCard(_id,name,history,tags,fileURL,itemType, publish) : Card{
@@ -334,6 +396,9 @@ export class Stage6Component implements OnInit {
             this._gameplayService.incrementScore();
             this.userScore = this._gameplayService.getActualScore();
             if(this.counter==6){
+              if(this.jokerMultiWastedHere){
+                this._dataService.setNewSuccessPoints(true, 0);
+              }
               setTimeout(()=>{
                 this._gameplayService.changeStageSound();
 
