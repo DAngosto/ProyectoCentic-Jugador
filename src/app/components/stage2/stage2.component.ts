@@ -53,12 +53,18 @@ export class Stage2Component implements OnInit {
   userScore;
   userLives;
   gamemode;
+  sawGame: boolean = false;
 
   arcade: boolean;
   survival: boolean;
   comodinMultiplicador:boolean;
   jokerMultiWastedHere:boolean = false;
   comodinVolteo: boolean;
+
+  cardName: string;
+  cardHistory: string;
+  cardURL: string;
+  stageCard: Card;
 
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService) { }
@@ -104,7 +110,10 @@ export class Stage2Component implements OnInit {
 
 
 
-            this._dataService.addNewCardDisplayed();
+          this.stageCard = this._dataService.addNewCardDisplayed();
+          this.cardName = this.stageCard.name;
+          this.cardHistory = this.stageCard.history;
+          this.cardURL = 'https://gameserver.centic.ovh' + this.stageCard.fileURL;
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
             if (this.cards.length<=2){
               this.router.navigate(["/home"]);
@@ -196,6 +205,10 @@ export class Stage2Component implements OnInit {
     
   
   
+  }
+
+  playGame(){
+    this.sawGame = true;
   }
 
 

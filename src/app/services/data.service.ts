@@ -106,8 +106,10 @@ export class DataService {
             else if(this.collections[0].gamemode==1){
                 console.log("survival");
                 localStorage.setItem("gamemode", "1");
+                /*
                 localStorage.setItem("successpoints", this.messageSource2.value['survivalsuccesspoints']);
                 localStorage.setItem("failpoints", this.messageSource2.value['survivalfailpoints']);
+                */
                 localStorage.setItem("survivallives", this.messageSource2.value['survivallives']);
             }
 
@@ -154,13 +156,14 @@ export class DataService {
         }
     }
 
-    addNewCardDisplayed(){
+    addNewCardDisplayed(): Card{
         var rand = Math.floor(Math.random() * this.cards.length);
         var cardAux = this.cards[rand];
         this.cards.splice(rand,1);
 
         this.cardsDisplayed.push(cardAux);
         this.cardsDisplayed.push(cardAux);
+        return cardAux;
     }
 
     /*

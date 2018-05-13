@@ -1,21 +1,41 @@
-<h1 class="text-center" *ngIf="arcade">Puntuación: {{ userScore }}</h1>
-<div class="row col-md-12 text-left" *ngIf="arcade">
-        <div class="col-md-4">
-            <button class="btn btn-warning btn-circle" (click)= "useJoker(1)" data-toggle="modal" data-target="#myModal" *ngIf="comodinMultiplicador">X2</button>
-            <button class="btn btn-warning btn-circle"  data-toggle="modal" data-target="#myModal" *ngIf="!comodinMultiplicador" disabled>X2</button>
+<div id="page-wrapper" *ngIf=!sawGame>
+    <div class="contact-clean">
+        <form method="post">
+            <br><h2 class="text-center">Carta: {{ cardName }}</h2>
+            <div class="form-group"><textarea class="form-control" rows="9" name="history" placeholder="{{ cardHistory }}" ></textarea>
+            
+            
+            </div>
+            <br><img class="center" [src] = "cardURL"><br><br>
+            <div class="text-center">
+                <div class="form-group" ><button class="btn btn-primary"  (click)="playGame()" > Play! </button></div>
 
-            <button class="btn btn-info btn-circle" (click)= "useJoker(2)" data-toggle="modal" data-target="#myModal" *ngIf="comodinVolteo"><i class="fa fa-eye"></i></button>
-            <button class="btn btn-info btn-circle"  data-toggle="modal" data-target="#myModal" *ngIf="!comodinVolteo" disabled><i class="fa fa-eye"></i></button>
+            </div>
+            
+        </form>
+    </div>
+
+    
+
+</div>
+
+<h1 class="text-center" *ngIf="arcade&&sawGame">Puntuación: {{ userScore }}</h1>
+<div class="row col-md-12 text-left" *ngIf="arcade&&sawGame">
+        <div class="col-md-4">
+            <button class="btn btn-warning btn-circle" (click)= "useJoker(1)"   *ngIf="comodinMultiplicador">X2</button>
+            <button class="btn btn-warning btn-circle"    *ngIf="!comodinMultiplicador" disabled>X2</button>
+
+            <button class="btn btn-info btn-circle" (click)= "useJoker(2)"   *ngIf="comodinVolteo"><i class="fa fa-eye"></i></button>
+            <button class="btn btn-info btn-circle"    *ngIf="!comodinVolteo" disabled><i class="fa fa-eye"></i></button>
 
         </div>
 </div>
-<div class="text-center" *ngIf="survival">
+<div class="text-center" *ngIf="survival&&sawGame">
 <h1 class="text-center">Vidas restantes</h1><h1 class="text-center">{{ userLives }} <img src="../../../assets/liveIcon.png"></h1>
 </div>
- 
-<br>
+ <br>
   <!--[ngStyle]="{background: 'url(/assets/' + imgR + ')', width: '700px', height: '700px'}"-->
-  <div id="photos" >
+  <div id="photos" *ngIf="sawGame">
     <img [src] = "url1">
     <img [src] = "url2" (click)= "sawCard(0)">
     <img [src] = "url3">

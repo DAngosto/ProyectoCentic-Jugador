@@ -60,6 +60,12 @@ export class Stage6Component implements OnInit {
   jokerMultiWastedHere:boolean = false;
   comodinVolteo: boolean;
 
+  cardName: string;
+  cardHistory: string;
+  cardURL: string;
+  stageCard: Card;
+  sawGame: boolean = false;
+
 
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService) { }
@@ -104,7 +110,10 @@ export class Stage6Component implements OnInit {
 
 
 
-            this._dataService.addNewCardDisplayed();
+          this.stageCard = this._dataService.addNewCardDisplayed();
+          this.cardName = this.stageCard.name;
+          this.cardHistory = this.stageCard.history;
+          this.cardURL = 'https://gameserver.centic.ovh' + this.stageCard.fileURL;
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
 
             console.log(this.cards.length);
@@ -191,6 +200,10 @@ export class Stage6Component implements OnInit {
     
   
   
+  }
+
+  playGame(){
+    this.sawGame = true;
   }
 
 
