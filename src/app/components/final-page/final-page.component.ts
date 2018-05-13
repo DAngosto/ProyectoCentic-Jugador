@@ -12,7 +12,8 @@ export class FinalPageComponent implements OnInit {
 
   ngOnInit() {
     this._gameplayService.finalSound();
-
+    console.log(this._gameplayService.getActualLives());
+    console.log(Number(localStorage.getItem("survivallives")));
   }
 
 

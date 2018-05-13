@@ -3,6 +3,7 @@ import { DataService } from '../../services/data.service';
 import { GameplayService } from '../../services/gameplay.service';
 
 
+
 import { Card } from '../../interfaces/Card';
 import { Collection } from '../../interfaces/Collection';
 import { Configuration } from '../../interfaces/Configuration';
@@ -52,6 +53,8 @@ export class Stage1Component implements OnInit {
 
 
   userScore;
+  userLives;
+  gamemode;
 
   arcade: boolean;
   survival: boolean;
@@ -79,15 +82,17 @@ export class Stage1Component implements OnInit {
             localStorage.setItem('comodinVolteo', "1");
             this.comodinMultiplicador = true;
             this.comodinVolteo = true;
-            var gamemode = Number(localStorage.getItem("gamemode"));
-            if(gamemode==0){
+            this.gamemode = Number(localStorage.getItem("gamemode"));
+            if(this.gamemode==0){
                 this.arcade = true;
                 this.survival = false;
 
             }
-            else if(gamemode==1){
+            else if(this.gamemode==1){
               this.survival = true;
               this.arcade = false;
+              this._gameplayService.setLives(Number(localStorage.getItem("survivallives")));
+              this.userLives = this._gameplayService.getActualLives();
               
             }
 
@@ -276,34 +281,66 @@ export class Stage1Component implements OnInit {
         }
         else{
           if(this.randomCards[id]._id==this.cardCheck1){
-            this.correctIDs.push(this.cardCheck1);
-            this.counter++;
-            console.log("son la misma");
-            console.log(this.correctIDs.length);
-            this.changeUrl(id,false);
-            this._gameplayService.successSound();
-            this._gameplayService.incrementScore();
-            this.userScore = this._gameplayService.getActualScore();
-            if(this.counter==1){
-              this._gameplayService.changeStageSound();
-              if(this.jokerMultiWastedHere){
-                this._dataService.setNewSuccessPoints(true, 0);
+            if(this.gamemode==0){
+              this.correctIDs.push(this.cardCheck1);
+              this.counter++;
+              console.log("son la misma");
+              console.log(this.correctIDs.length);
+              this.changeUrl(id,false);
+              this._gameplayService.successSound();
+              this._gameplayService.incrementScore();
+              this.userScore = this._gameplayService.getActualScore();
+              if(this.counter==1){
+                this._gameplayService.changeStageSound();
+                if(this.jokerMultiWastedHere){
+                  this._dataService.setNewSuccessPoints(true, 0);
+                }
+                setTimeout(()=>{
+                  this.router.navigate(["stage2"]);
+                },1000);
               }
-              setTimeout(()=>{
-                this.router.navigate(["stage2"]);
-              },1000);
+            }else if (this.gamemode==1){
+              this.correctIDs.push(this.cardCheck1);
+              this.counter++;
+              console.log("son la misma");
+              console.log(this.correctIDs.length);
+              this.changeUrl(id,false);
+              this._gameplayService.successSound();
+              if(this.counter==1){
+                this._gameplayService.changeStageSound();
+                setTimeout(()=>{
+                  this.router.navigate(["stage2"]);
+                },1000);
+              }
             }
           }else{
-            this.changeUrl(id,false);
-            console.log(this.correctIDs.length);
-            console.log("no son la misma");
-            this._gameplayService.looseSound();
-
-            this._gameplayService.decrementScore();
-            this.userScore = this._gameplayService.getActualScore();
-            setTimeout(()=>{
-              this.changeUrl(id,true);
-            },500);
+            if(this.gamemode==0){
+              this.changeUrl(id,false);
+              console.log(this.correctIDs.length);
+              console.log("no son la misma");
+              this._gameplayService.looseSound();
+  
+              this._gameplayService.decrementScore();
+              this.userScore = this._gameplayService.getActualScore();
+              setTimeout(()=>{
+                this.changeUrl(id,true);
+              },500);
+            }
+            else if (this.gamemode==1){
+              this.changeUrl(id,false);
+              var aux =  this._gameplayService.decrementLives();
+              this.userLives = this._gameplayService.getActualLives();
+              this._gameplayService.looseSound();
+              setTimeout(()=>{
+                
+                this.changeUrl(id,true);
+                this.changeUrl(this.cardCheck2,true);
+              },500);
+              if(aux){
+                this.router.navigate(["error"]);
+              }
+            }
+            
           }
         }
         

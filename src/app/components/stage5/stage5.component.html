@@ -1,4 +1,4 @@
-<h1 class="text-center">Puntuación: {{ userScore }}</h1>
+<h1 class="text-center" *ngIf="arcade">Puntuación: {{ userScore }}</h1>
 <div class="row col-md-12 text-left" *ngIf="arcade">
         <div class="col-md-4">
             <button class="btn btn-warning btn-circle" (click)= "useJoker(1)" data-toggle="modal" data-target="#myModal" *ngIf="comodinMultiplicador">X2</button>
@@ -8,6 +8,9 @@
             <button class="btn btn-info btn-circle"  data-toggle="modal" data-target="#myModal" *ngIf="!comodinVolteo" disabled><i class="fa fa-eye"></i></button>
 
         </div>
+</div>
+<div class="text-center" *ngIf="survival">
+<h1 class="text-center">Vidas restantes</h1><h1 class="text-center">{{ userLives }} <img src="../../../assets/liveIcon.png"></h1>
 </div>
  
 <br>

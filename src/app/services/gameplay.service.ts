@@ -13,6 +13,10 @@ export class GameplayService implements OnInit{
   private messageSource = new BehaviorSubject<number>(this.score);
   userScore = this.messageSource.asObservable();
 
+  lives: number;
+  private messageSource2 = new BehaviorSubject<number>(this.lives);
+  userLives = this.messageSource2.asObservable();
+
   gamemode: number;
   scoreIncrement: number; 
   scoreDecrement: number; 
@@ -53,9 +57,28 @@ export class GameplayService implements OnInit{
     }
   }
 
+  setLives(quantity){
+    this.lives = quantity;
+  }
+
 
   getActualScore(): number{
     return this.score;
+  }
+
+
+  decrementLives(): boolean{
+    if((this.lives-1)>0){
+      this.lives--;
+      return false;
+    }
+    else{
+      return true;
+    }
+  }
+
+  getActualLives(): number{
+    return this.lives;
   }
   
   changeStageSound(){
