@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { GameplayService } from '../../services/gameplay.service';
+
 
 import { Card } from '../../interfaces/Card';
 import { Collection } from '../../interfaces/Collection';
@@ -49,7 +51,10 @@ export class Stage1Component implements OnInit {
   urlFilesSplitted;
 
 
-  constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) { }
+  userScore;
+
+
+  constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService) { }
 
   ngOnInit() {
 
@@ -67,6 +72,9 @@ export class Stage1Component implements OnInit {
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
             this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
+            //this._gameplayService.userScore.subscribe(userScore => this.userScore = userScore);
+            this.userScore = this._gameplayService.getActualScore();
+
             var arrayAux = this.cards.slice(0);
             var urlFiles: string;
             var iniLength = arrayAux.length;
@@ -113,7 +121,6 @@ export class Stage1Component implements OnInit {
             //console.log(this.cards);
       */
       
-            
           });
       //}else{
       //  this.router.navigate(["error"]);
@@ -221,16 +228,26 @@ export class Stage1Component implements OnInit {
             console.log("son la misma");
             console.log(this.correctIDs.length);
             this.changeUrl(id,false);
+            this._gameplayService.successSound();
+            this._gameplayService.incrementScore();
+            this.userScore = this._gameplayService.getActualScore();
             if(this.counter==1){
-              this.router.navigate(["stage2"]);
+              this._gameplayService.changeStageSound();
+              setTimeout(()=>{
+                this.router.navigate(["stage2"]);
+              },1000);
             }
           }else{
             this.changeUrl(id,false);
             console.log(this.correctIDs.length);
             console.log("no son la misma");
+            this._gameplayService.looseSound();
+
+            this._gameplayService.decrementScore();
+            this.userScore = this._gameplayService.getActualScore();
             setTimeout(()=>{
               this.changeUrl(id,true);
-          },1500);
+            },500);
           }
         }
         

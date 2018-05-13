@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { DataService } from '../../services/data.service';
+import { GameplayService } from '../../services/gameplay.service';
+
 
 import { Card } from '../../interfaces/Card';
 import { Collection } from '../../interfaces/Collection';
@@ -48,7 +50,10 @@ export class Stage6Component implements OnInit {
 
   urlFilesSplitted;
 
-  constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute) { }
+  userScore;
+
+
+  constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService) { }
 
   ngOnInit() {
 
@@ -66,6 +71,8 @@ export class Stage6Component implements OnInit {
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
             this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
+            this.userScore = this._gameplayService.getActualScore();
+
             var arrayAux = this.cards.slice(0);
             var urlFiles: string;
             var iniLength = arrayAux.length;
@@ -313,7 +320,13 @@ export class Stage6Component implements OnInit {
             console.log("son la misma");
             console.log(this.correctIDs.length);
             this.changeUrl(id,false);
+            this._gameplayService.successSound();
+
+            this._gameplayService.incrementScore();
+            this.userScore = this._gameplayService.getActualScore();
             if(this.counter==6){
+              this._gameplayService.changeStageSound();
+
               //this.router.navigate(["stage6"]);
               console.log("juego finalizado");
             }
@@ -321,6 +334,10 @@ export class Stage6Component implements OnInit {
             this.changeUrl(id,false);
             console.log(this.correctIDs.length);
             console.log("no son la misma");
+            this._gameplayService.looseSound();
+
+            this._gameplayService.decrementScore();
+            this.userScore = this._gameplayService.getActualScore();
             setTimeout(()=>{
               this.changeUrl(id,true);
               this.changeUrl(this.cardCheck2,true);

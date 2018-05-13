@@ -10,7 +10,7 @@ import { HttpModule } from '@angular/http';
 
 import { FormsModule } from '@angular/forms';
 import { DataService } from './services/data.service';   // our custom service responsible of communications between the front-end and back-end of the application
-
+import { GameplayService } from './services/gameplay.service'; 
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
@@ -68,7 +68,7 @@ import { Stage5Component } from './components/stage5/stage5.component';
       
     ])
   ],
-  providers: [DataService],
+  providers: [DataService, GameplayService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
