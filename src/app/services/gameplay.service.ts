@@ -62,4 +62,11 @@ export class GameplayService {
     audio.play();
   }
 
+  finalSound(){
+    var audio = new Audio();
+    audio.src = "../../assets/finalpage.wav";
+    audio.load();
+    audio.play();
+  }
+
 }

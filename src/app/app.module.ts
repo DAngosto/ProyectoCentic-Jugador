@@ -23,6 +23,7 @@ import { Stage2Component } from './components/stage2/stage2.component';
 import { Stage3Component } from './components/stage3/stage3.component';
 import { Stage4Component } from './components/stage4/stage4.component';
 import { Stage5Component } from './components/stage5/stage5.component';
+import { FinalPageComponent } from './components/final-page/final-page.component';
 
 
 
@@ -39,7 +40,8 @@ import { Stage5Component } from './components/stage5/stage5.component';
     Stage2Component,
     Stage3Component,
     Stage4Component,
-    Stage5Component
+    Stage5Component,
+    FinalPageComponent
 
   ],
   imports: [
@@ -61,6 +63,7 @@ import { Stage5Component } from './components/stage5/stage5.component';
       { path: 'stage4', component: Stage4Component },
       { path: 'stage5', component: Stage5Component },
       { path: 'stage6', component: Stage6Component },
+      { path: 'final', component: FinalPageComponent },
       {
         path: 'error',
         component: ErrorComponent

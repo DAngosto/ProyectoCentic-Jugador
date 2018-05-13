@@ -70,62 +70,70 @@ export class Stage4Component implements OnInit {
           
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
-            this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
-            this.userScore = this._gameplayService.getActualScore();
+            console.log(this.cards.length);
 
-            var arrayAux = this.cards.slice(0);
-            var urlFiles: string;
-            var iniLength = arrayAux.length;
-            for (let i=0; i<iniLength;i++){
-              var rand = Math.floor(Math.random() * arrayAux.length);
-              
-              this.randomCards.push(arrayAux[rand]);
-
-              if (i==0) {
-                urlFiles = 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
-              }
-              else if (i==(iniLength-1)){
-                urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL;
-              }
-              else{
-                urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
-              }
-              arrayAux.splice(rand,1);
+            if (this.cards.length<=2){
+              this.router.navigate(["/home"]);
             }
-
+            else{
+              this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
+              this.userScore = this._gameplayService.getActualScore();
+  
+              var arrayAux = this.cards.slice(0);
+              var urlFiles: string;
+              var iniLength = arrayAux.length;
+              for (let i=0; i<iniLength;i++){
+                var rand = Math.floor(Math.random() * arrayAux.length);
+                
+                this.randomCards.push(arrayAux[rand]);
+  
+                if (i==0) {
+                  urlFiles = 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
+                }
+                else if (i==(iniLength-1)){
+                  urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL;
+                }
+                else{
+                  urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
+                }
+                arrayAux.splice(rand,1);
+              }
+  
+          
+              this.urlFilesSplitted = urlFiles.split(',');
+              //for (let i=0; i<urlFilesSplitted.length;i++){
+              //}
+              this.url1 = this.gameConfig.cardCover;
+              this.url2 = this.gameConfig.cardCover;
+              this.url3 = '../../../assets/dorsoTransparente.png';
+              this.url4 = '../../../assets/dorsoTransparente.png';
+              this.url5 = this.gameConfig.cardCover;
+              this.url6 = this.gameConfig.cardCover;
+              this.url7 = this.gameConfig.cardCover;
+              this.url8 = this.gameConfig.cardCover;
+              this.url9 = '../../../assets/dorsoTransparente.png';
+              this.url10 = '../../../assets/dorsoTransparente.png';
+              this.url11 = this.gameConfig.cardCover;
+              this.url12 = this.gameConfig.cardCover;
+              
         
-            this.urlFilesSplitted = urlFiles.split(',');
-            //for (let i=0; i<urlFilesSplitted.length;i++){
-            //}
-            this.url1 = this.gameConfig.cardCover;
-            this.url2 = this.gameConfig.cardCover;
-            this.url3 = '../../../assets/dorsoTransparente.png';
-            this.url4 = '../../../assets/dorsoTransparente.png';
-            this.url5 = this.gameConfig.cardCover;
-            this.url6 = this.gameConfig.cardCover;
-            this.url7 = this.gameConfig.cardCover;
-            this.url8 = this.gameConfig.cardCover;
-            this.url9 = '../../../assets/dorsoTransparente.png';
-            this.url10 = '../../../assets/dorsoTransparente.png';
-            this.url11 = this.gameConfig.cardCover;
-            this.url12 = this.gameConfig.cardCover;
+              console.log("cartas en el stage 4 "  + this.cards.length);
+              console.log(this.gameConfig);
+              /*
+        
+        
+              
+        
+              var arrayAux = this.cards;
+              console.log(arrayAux.length);
+              arrayAux.splice(3,2);
+              console.log(arrayAux.length);
+              //console.log(this.cards);
+              //this._dataService.randomizeCards();
+              //console.log(this.cards);
+        */
+            }
             
-      
-            console.log("cartas en el stage 4 "  + this.cards.length);
-            console.log(this.gameConfig);
-            /*
-      
-      
-            
-      
-            var arrayAux = this.cards;
-            console.log(arrayAux.length);
-            arrayAux.splice(3,2);
-            console.log(arrayAux.length);
-            //console.log(this.cards);
-            //this._dataService.randomizeCards();
-            //console.log(this.cards);
-      */
       
             
           });

@@ -70,7 +70,13 @@ export class Stage6Component implements OnInit {
          
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
-            this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
+
+            console.log(this.cards.length);
+            if (this.cards.length<=2){
+              this.router.navigate(["/home"]);
+            }
+            else{
+              this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
             this.userScore = this._gameplayService.getActualScore();
 
             var arrayAux = this.cards.slice(0);
@@ -125,6 +131,9 @@ export class Stage6Component implements OnInit {
             //this._dataService.randomizeCards();
             //console.log(this.cards);
       */
+
+            }
+            
       
             
           });
@@ -325,10 +334,11 @@ export class Stage6Component implements OnInit {
             this._gameplayService.incrementScore();
             this.userScore = this._gameplayService.getActualScore();
             if(this.counter==6){
-              this._gameplayService.changeStageSound();
+              setTimeout(()=>{
+                this._gameplayService.changeStageSound();
 
-              //this.router.navigate(["stage6"]);
-              console.log("juego finalizado");
+                this.router.navigate(["final"]);
+              },1000);
             }
           }else{
             this.changeUrl(id,false);

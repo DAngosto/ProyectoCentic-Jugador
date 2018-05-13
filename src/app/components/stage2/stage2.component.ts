@@ -73,69 +73,75 @@ export class Stage2Component implements OnInit {
           
             this._dataService.addNewCardDisplayed();
             this._dataService.currentCardsDisplayed.subscribe(cardsDisplayed => this.cards = cardsDisplayed);
-            this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
-            console.log("check del score");
-            console.log(this.userScore);
-            //this._gameplayService.userScore.subscribe(userScore => this.userScore = userScore);
-            this.userScore = this._gameplayService.getActualScore();
-            console.log(this.userScore);
-
-
-            var arrayAux = this.cards.slice(0);
-            var urlFiles: string;
-            var iniLength = arrayAux.length;
-
-
-  
-            
-            for (let i=0; i<iniLength;i++){
-              var rand = Math.floor(Math.random() * arrayAux.length);
-
-              this.randomCards.push(arrayAux[rand]);
-
-              if (i==0) {
-                urlFiles = 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
-              }
-              else if (i==(iniLength-1)){
-                urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL;
-              }
-              else{
-                urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
-              }
-              arrayAux.splice(rand,1);
+            if (this.cards.length<=2){
+              this.router.navigate(["/home"]);
             }
-
+            else{
+              this._dataService.gameConfiguration.subscribe(gameConfiguration => this.gameConfig = gameConfiguration);
+              console.log("check del score");
+              console.log(this.userScore);
+              //this._gameplayService.userScore.subscribe(userScore => this.userScore = userScore);
+              this.userScore = this._gameplayService.getActualScore();
+              console.log(this.userScore);
+  
+  
+              var arrayAux = this.cards.slice(0);
+              var urlFiles: string;
+              var iniLength = arrayAux.length;
+  
+  
+    
+              
+              for (let i=0; i<iniLength;i++){
+                var rand = Math.floor(Math.random() * arrayAux.length);
+  
+                this.randomCards.push(arrayAux[rand]);
+  
+                if (i==0) {
+                  urlFiles = 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
+                }
+                else if (i==(iniLength-1)){
+                  urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL;
+                }
+                else{
+                  urlFiles = urlFiles + 'https://gameserver.centic.ovh' + arrayAux[rand].fileURL + ',';
+                }
+                arrayAux.splice(rand,1);
+              }
+  
+          
+              this.urlFilesSplitted = urlFiles.split(',');
+              //for (let i=0; i<urlFilesSplitted.length;i++){
+              //}
+              this.url1 = '../../../assets/dorsoTransparente.png';
+              this.url2 = this.gameConfig.cardCover;
+              this.url3 = '../../../assets/dorsoTransparente.png';
+              this.url4 = '../../../assets/dorsoTransparente.png';
+              this.url5 = this.gameConfig.cardCover;
+              this.url6 = '../../../assets/dorsoTransparente.png';
+              this.url7 = this.gameConfig.cardCover;
+              this.url8 = '../../../assets/dorsoTransparente.png';
+              this.url9 = '../../../assets/dorsoTransparente.png';
+              this.url10 = this.gameConfig.cardCover;
+              this.url11 = '../../../assets/dorsoTransparente.png';
+              this.url12 = '../../../assets/dorsoTransparente.png';
+              
+              console.log(this.cards);
+              /*
         
-            this.urlFilesSplitted = urlFiles.split(',');
-            //for (let i=0; i<urlFilesSplitted.length;i++){
-            //}
-            this.url1 = '../../../assets/dorsoTransparente.png';
-            this.url2 = this.gameConfig.cardCover;
-            this.url3 = '../../../assets/dorsoTransparente.png';
-            this.url4 = '../../../assets/dorsoTransparente.png';
-            this.url5 = this.gameConfig.cardCover;
-            this.url6 = '../../../assets/dorsoTransparente.png';
-            this.url7 = this.gameConfig.cardCover;
-            this.url8 = '../../../assets/dorsoTransparente.png';
-            this.url9 = '../../../assets/dorsoTransparente.png';
-            this.url10 = this.gameConfig.cardCover;
-            this.url11 = '../../../assets/dorsoTransparente.png';
-            this.url12 = '../../../assets/dorsoTransparente.png';
+        
+              
+        
+              var arrayAux = this.cards;
+              console.log(arrayAux.length);
+              arrayAux.splice(3,2);
+              console.log(arrayAux.length);
+              //console.log(this.cards);
+              //this._dataService.randomizeCards();
+              //console.log(this.cards);
+        */
+            }
             
-            console.log(this.cards);
-            /*
-      
-      
-            
-      
-            var arrayAux = this.cards;
-            console.log(arrayAux.length);
-            arrayAux.splice(3,2);
-            console.log(arrayAux.length);
-            //console.log(this.cards);
-            //this._dataService.randomizeCards();
-            //console.log(this.cards);
-      */
       
             
           });
