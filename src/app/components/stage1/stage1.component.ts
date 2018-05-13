@@ -167,11 +167,14 @@ export class Stage1Component implements OnInit {
   useJoker(idComodin){
     switch (idComodin){
       case 1:
-        var aux = Number(localStorage.getItem('arcadesuccesspoints')) + Number(localStorage.getItem('arcadesuccesspoints'));
+        var aux = Number(localStorage.getItem('successpoints')) + Number(localStorage.getItem('successpoints'));
+
         this._dataService.setNewSuccessPoints(false,aux.toString());
         this.comodinMultiplicador=false;
         localStorage.setItem('comodinMulti', "0");
         this.jokerMultiWastedHere=true;
+        this.userScore = this._gameplayService.getActualScore();
+
         this._gameplayService.jokerMultiSound();
         break;
       case 2:

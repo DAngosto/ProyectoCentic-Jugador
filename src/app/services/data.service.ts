@@ -142,10 +142,14 @@ export class DataService {
 
     setNewSuccessPoints(reset, value){
         if (reset){
+            console.log("valor del successpoints antes: " + Number(localStorage.getItem("successpoints")));
+
             var aux = Number(localStorage.getItem("successpoints")) - (Number(localStorage.getItem("successpoints"))/2);
             localStorage.setItem("successpoints", aux.toString());
+            console.log("valor del successpoints despues: " + aux);
         }
         else{
+            console.log("value recibido en el servicio" + value);
             localStorage.setItem("successpoints", value);
         }
     }
