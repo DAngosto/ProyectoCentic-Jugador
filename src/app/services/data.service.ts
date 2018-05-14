@@ -43,6 +43,8 @@ export class DataService {
     gameConfiguration = this.messageSource2.asObservable();
 
     
+
+    
  
     constructor(private http:HttpClient, private _errorService: ErrorService, private router:Router) {}
  
@@ -125,7 +127,7 @@ export class DataService {
             //Buscamos si está publish true la coleccion solciitada, en casod e estarlo se conjtinua normalmente y en su defecto se redirige a la ventana de error con su mensaje correspondiente
             var collection = localStorage.getItem('collection');
             let collectionParsed= JSON.parse(collection).collection;
-            var wantedCollection;
+            var wantedCollection: Collection;
             var collectionFound: boolean = false;
             for(let i=0;i<this.collections.length;i++){
                 if(this.collections[i]._id==collectionParsed){
@@ -166,6 +168,13 @@ export class DataService {
                     this.router.navigate(["error"]);
                 }
 
+                
+        
+
+                localStorage.setItem("collectionid",wantedCollection._id.toString());
+                localStorage.setItem("collectionname",wantedCollection.name.toString());
+
+
             }
             else{
                 this._errorService.setError("La colección que usted está intentando jugar no está disponible en estos momentos.");
@@ -180,6 +189,53 @@ export class DataService {
             return response;
           });
     }
+
+    updateStadistics(gamemode,score,fails,lives){
+        let headers = new HttpHeaders()
+            .set('Content-Type', 'application/json');
+        let invitation= localStorage.getItem('invitation');
+        let invitationParsed= JSON.parse(invitation).invitation;
+        var collectionID =  localStorage.getItem("collectionid");
+        var collectionName =  localStorage.getItem("collectionname");
+        var today = new Date().toJSON().slice(0,10);
+        var jokerMultiWasted:boolean = false;
+        var jokerVolteoWasted:boolean = false;
+        if(Number(localStorage.getItem('comodinMulti'))==0){
+            jokerMultiWasted = true;
+        }
+        if(Number(localStorage.getItem('comodinVolteo'))==0){
+            jokerVolteoWasted = true;
+        }
+        var message;
+        if(gamemode==0){
+            message = {
+                "idCollection": collectionID,
+                "nameCollection": collectionName,
+                "gamemode": gamemode,
+                "userScore" : score,
+                "userFails": fails,
+                "jokermultiwasted": jokerMultiWasted,
+                "jokervolteowasted": jokerVolteoWasted,
+                "date": today.toString(),
+                "itemType": "2",
+            }
+
+        }
+        else if(gamemode==1){
+            message = {
+                "idCollection": collectionID,
+                "nameCollection": collectionName,
+                "gamemode": gamemode,
+                "userLives" : lives,
+                "date": today.toString(),
+                "itemType": "2",
+            }
+        }
+        let body= JSON.stringify(message);
+        return this.http.put('https://gameserver.centic.ovh/games/items/' + invitationParsed,body, { headers: headers });
+
+    }
+
 
     /*
     setConfig(cardCover){

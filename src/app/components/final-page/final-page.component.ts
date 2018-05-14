@@ -41,7 +41,7 @@ export class FinalPageComponent implements OnInit {
   constructor(private _gameplayService: GameplayService,private _dataService: DataService, private _errorService: ErrorService, private router:Router) { }
 
   ngOnInit() {
-    //this._gameplayService.finalSound();
+    
 
     this.gamemode = Number(localStorage.getItem("gamemode"));
     if(this.gamemode==0){
@@ -61,14 +61,28 @@ export class FinalPageComponent implements OnInit {
           console.log(data);
           this._errorService.setError("La invitación con la que inició el juego ya ha sido usada.");
           this.router.navigate(["error"]);
+          
+
+        }
+        else if(data["Error"]=="3008"){
+          console.log(data);
+          this._errorService.setError("Has jugado recientemente esta colección y por lo tanto es necesario que esperes un poco mas. Aguanta que falta ya poco :)");
+          this.router.navigate(["error"]);
+          
+
         }
         else{
           console.log(data);
+          this._gameplayService.finalSound();
           this.gameRanking = "Ranking en el juego: " + data['match_ranking'] +"º";
           this.gameScore = "Puntuación del juego: "+ data['match_score'] +" puntos";
           this.generalRanking = "Ranking en la aplicación del Centic: "+ data['session_ranking'] +"º";
           this.generalScore = "Puntuación general: " + data['session_score'] +" puntos";
+          this._dataService.updateStadistics(0,this.userScore,this.userFails,0).subscribe(data=>{
+          });
         }
+
+
       });
       /*
       .map((response: Response)=>{
@@ -110,11 +124,15 @@ export class FinalPageComponent implements OnInit {
           this.gameScore = "Puntuación del juego: "+ data['match_score'] +" puntos";
           this.generalRanking = "Ranking en la aplicación del Centic: "+ data['session_ranking'] +"º";
           this.generalScore = "Puntuación general: " + data['session_score'] +" puntos";
+          this._dataService.updateStadistics(1,0,0,this.userLives).subscribe(data=>{
+          });
         }
       });
 
     }
 
+
+    
 
     /*
     console.log(this._gameplayService.getActualLives());
