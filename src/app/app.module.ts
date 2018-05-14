@@ -11,11 +11,15 @@ import { HttpModule } from '@angular/http';
 import { FormsModule } from '@angular/forms';
 import { DataService } from './services/data.service';   // our custom service responsible of communications between the front-end and back-end of the application
 import { GameplayService } from './services/gameplay.service'; 
+import { ErrorService } from './services/error.service'; 
 
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LottieAnimationComponent } from './components/lottie-animation/lottie-animation.component';
 import { animationSuccess } from './components/lottie-animation/lottie-animation2.component';
+
+
+
 import { ErrorComponent } from './components/error/error.component';
 import { Stage1Component } from './components/stage1/stage1.component';
 import { Stage6Component } from './components/stage6/stage6.component';
@@ -52,10 +56,7 @@ import { FinalPageComponent } from './components/final-page/final-page.component
     LottieAnimationViewModule.forRoot(),
     RouterModule.forRoot([
       
-      {
-        path: '',
-        component: HomeComponent
-      },
+      { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'stage1', component: Stage1Component },
       { path: 'stage2', component: Stage2Component },
@@ -64,14 +65,11 @@ import { FinalPageComponent } from './components/final-page/final-page.component
       { path: 'stage5', component: Stage5Component },
       { path: 'stage6', component: Stage6Component },
       { path: 'final', component: FinalPageComponent },
-      {
-        path: 'error',
-        component: ErrorComponent
-      }
+      { path: 'error', component: ErrorComponent }
       
     ])
   ],
-  providers: [DataService, GameplayService],
+  providers: [DataService, GameplayService, ErrorService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

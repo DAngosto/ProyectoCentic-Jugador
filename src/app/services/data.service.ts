@@ -55,18 +55,37 @@ export class DataService {
         
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         let invitation= localStorage.getItem('invitation');
-        let invitationParsed= JSON.parse(invitation);
+        let invitationParsed= JSON.parse(invitation).invitation;
         let validation= localStorage.getItem('validation');
-        let validationParsed= JSON.parse(validation);
+        let validationParsed= JSON.parse(validation).validation;
+
+        console.log(invitationParsed);
+        console.log(validationParsed);
+
         let message = {
-          "validation": validationParsed.validation,
-          "invitation":invitationParsed.invitation,
+          "validation": validationParsed,
+          "invitation":invitationParsed,
           "percent": points,
           "title": "Puntos ganados",
           "resume": "Has ganado puntos con el juego",
           "message": "Como has jugado al juego dle TCM has recibido puntos por ello"
+        }
+      /*
+     let message = {
+        "validation": "ec08356e-577b-11e8-a9f8-005056992599",
+        "invitation": "9f6c9e4e-471c-11e8-a9f8-005056992599",
+        
+        "percent": points,
+        "title": "Puntos ganados",
+        "resume": "Has ganado puntos con el juego",
+        "message": "Como has jugado al juego dle TCM has recibido puntos por ello"
       }
+      */
+      
+
+
       let body= JSON.stringify(message);
+      console.log("envio puntos");
       return this.http.post('https://gameserver.centic.ovh/games/send_points',body, { headers: headers});
     }
 
@@ -94,6 +113,7 @@ export class DataService {
                 }
             }
             
+            localStorage.setItem("dataPoints", response['data']['points']);
             this.messageSource2.next(response['config']);
 
             //En vez de coger el 0 sería aquella coleccion que pasen por parametros

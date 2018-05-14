@@ -28,17 +28,53 @@ export class HomeComponent implements OnInit {
       this.activatedRoute.queryParams.subscribe(params =>{
         localStorage.setItem('invitation', null);
         this.invitation = params["invitation"];
+        console.log(this.invitation);
         localStorage.setItem('invitation', JSON.stringify({ invitation:this.invitation}));
+
+
+        //localStorage.setItem('invitation', this.invitation);
+
         localStorage.setItem('validation', null);
+
         this.validation = params["validation"];
+        console.log(this.validation);
         localStorage.setItem('validation', JSON.stringify({ validation:this.validation}));
+
+        //localStorage.setItem('validation', this.validation);
+
         //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
           this.getPointsValue();
+
+
+          /*
+          let invitation2= localStorage.getItem('invitation');
+          console.log(JSON.parse(invitation2));
+          let validation2= localStorage.getItem('validation');
+          console.log(JSON.parse(validation2));
+
+          console.log('"validation":' +  JSON.parse(validation2).validation);
+        */
+
+
       //}else{
         //this.router.navigate(["error"]);
       //}
      });
+
+     /*
+     this._dataService.givePointsuser(20).subscribe(
+      data => { this.puntos = data; console.log(data)},
+      err => console.error(err)
+    );
+    */
+  
+    
    }  
+
+
+   final(){
+    this.router.navigate(["final"]);
+   }
 
    ngOnInit(): void { 
      //this.getPointsValue();

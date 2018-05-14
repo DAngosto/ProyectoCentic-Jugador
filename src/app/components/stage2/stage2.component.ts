@@ -73,16 +73,7 @@ export class Stage2Component implements OnInit {
 
 
 
-      //Sacamos la invitación y la validaciónn de los parametros que le llegan, si no llega nada redirigimos a la pagina error
-      this.activatedRoute.queryParams.subscribe(params =>{
-        localStorage.setItem('invitation', null);
-        this.invitation = params["invitation"];
-        localStorage.setItem('invitation', JSON.stringify({ invitation:this.invitation}));
-        localStorage.setItem('validation', null);
-        this.validation = params["validation"];
-        localStorage.setItem('validation', JSON.stringify({ validation:this.validation}));
-        //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
-          //this.getPointsValue();
+      
           
           if(Number(localStorage.getItem('comodinMulti'))==0){
             this.comodinMultiplicador = false;
@@ -186,7 +177,7 @@ export class Stage2Component implements OnInit {
             
       
             
-          });
+          
       //}else{
       //  this.router.navigate(["error"]);
       //}
@@ -378,6 +369,7 @@ export class Stage2Component implements OnInit {
               console.log("no son la misma");
               this._gameplayService.looseSound();
               this._gameplayService.decrementScore();
+              this._gameplayService.incrementFails();
               this.userScore = this._gameplayService.getActualScore();
               setTimeout(()=>{
                 this.changeUrl(id,true);
@@ -386,6 +378,7 @@ export class Stage2Component implements OnInit {
             }else if (this.gamemode==1){
               this.changeUrl(id,false);
               var aux =  this._gameplayService.decrementLives();
+              
               this.userLives = this._gameplayService.getActualLives();
               this._gameplayService.looseSound();
               setTimeout(()=>{
@@ -393,7 +386,7 @@ export class Stage2Component implements OnInit {
                 this.changeUrl(this.cardCheck2,true);
               },500);
               if(aux){
-                this.router.navigate(["error"]);
+                this.router.navigate(["final"]);
               }
             }
             

@@ -20,7 +20,7 @@ export class animationSuccess {
 
   constructor() {
       this.lottieConfig = {
-          path: 'assets/success.json',
+          path: 'assets/trophy.json',
           autoplay: true,
           loop: true
       };

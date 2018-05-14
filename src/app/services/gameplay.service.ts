@@ -13,6 +13,10 @@ export class GameplayService implements OnInit{
   private messageSource = new BehaviorSubject<number>(this.score);
   userScore = this.messageSource.asObservable();
 
+  fails: number = 0;
+  private messageSource3 = new BehaviorSubject<number>(this.fails);
+  userFails = this.messageSource3.asObservable();
+
   lives: number;
   private messageSource2 = new BehaviorSubject<number>(this.lives);
   userLives = this.messageSource2.asObservable();
@@ -80,6 +84,14 @@ export class GameplayService implements OnInit{
   getActualLives(): number{
     return this.lives;
   }
+
+  incrementFails(){
+    this.fails++;
+  }
+
+  getActualFails(): number{
+    return this.fails;
+  }
   
   changeStageSound(){
     var audio = new Audio();
@@ -107,6 +119,11 @@ export class GameplayService implements OnInit{
     audio.src = "../../assets/finalpage.wav";
     audio.load();
     audio.play();
+    return audio;
+  }
+
+  stopFinalSound(audio){
+    audio.stop();
   }
 
   jokerMultiSound(){

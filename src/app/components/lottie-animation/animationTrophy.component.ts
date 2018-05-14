@@ -1,7 +1,7 @@
 import { Component, OnInit} from '@angular/core';
 
 @Component({
-  selector: 'app-lottie-animation',
+  selector: 'animation-trophy',
   template: `<div>
                <lottie-animation-view
                   [options]="lottieConfig"
@@ -12,7 +12,7 @@ import { Component, OnInit} from '@angular/core';
             </div>`
 })
 
-export class LottieAnimationComponent {
+export class AnimationTrophy {
 
   public lottieConfig: Object;
   private anim: any;
@@ -20,7 +20,7 @@ export class LottieAnimationComponent {
 
   constructor() {
       this.lottieConfig = {
-          path: 'assets/errorFace.json',
+          path: 'assets/trophy.json',
           autoplay: true,
           loop: true
       };
@@ -34,4 +34,4 @@ export class LottieAnimationComponent {
       this.anim.stop();
   }
 
-}// END OF LOTTIE-ANIMATION COMPONENT
+}// END OF LOTTIE-ANIMATION2 COMPONENT

@@ -2,17 +2,18 @@
     <div class="contact-clean">
         <form method="post">
             <br><h2 class="text-center">Carta: {{ cardName }}</h2>
-            <div class="form-group"><textarea class="form-control" rows="9" name="history" placeholder="{{ cardHistory }}" ></textarea>
+            <div class="form-group"><textarea class="form-control" rows="9" name="history" placeholder="{{ cardHistory }}" disabled></textarea>
             
             
             </div>
-            <br><img class="center" [src] = "cardURL"><br><br>
+        </form>
+            <br> <div id="card" class="text-center"><img [src] = "cardURL"></div><br><br><br><br><br>
             <div class="text-center">
                 <div class="form-group" ><button class="btn btn-primary"  (click)="playGame()" > Play! </button></div>
 
             </div>
             
-        </form>
+        
     </div>
 
     
