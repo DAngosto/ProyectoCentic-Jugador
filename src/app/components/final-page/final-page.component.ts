@@ -33,6 +33,10 @@ export class FinalPageComponent implements OnInit {
   pointsTogive:number = 0;
   selectedMessage:number = 0;
 
+  arcadeMode:boolean;
+  survivalMode:boolean;
+
+
 
   constructor(private _gameplayService: GameplayService,private _dataService: DataService, private _errorService: ErrorService, private router:Router) { }
 
@@ -41,6 +45,8 @@ export class FinalPageComponent implements OnInit {
 
     this.gamemode = Number(localStorage.getItem("gamemode"));
     if(this.gamemode==0){
+      this.arcadeMode=true;
+      this.survivalMode=false;
       this.userScore = this._gameplayService.getActualScore();
       this.userFails = this._gameplayService.getActualFails();
       
@@ -83,7 +89,8 @@ export class FinalPageComponent implements OnInit {
       });  
       */
     }else if(this.gamemode==1){
-
+      this.arcadeMode=false;
+      this.survivalMode=true;
       this.userLives = this._gameplayService.getActualLives();
       
       this.pointsTogive = this.calculationOfPointsToBeAwarded(1);
@@ -94,7 +101,7 @@ export class FinalPageComponent implements OnInit {
       this._dataService.givePointsuser(this.pointsTogive).subscribe(data=>{
         if(data["Error"]=="5002"){
           console.log(data);
-          this._errorService.setError("La invitación con la que inició el juego ya ha sido usada.");
+          this._errorService.setError("La invitación con la que inició el juego ya ha sido usada o el código de verificación es erroneo.");
           this.router.navigate(["error"]);
         }
         else{

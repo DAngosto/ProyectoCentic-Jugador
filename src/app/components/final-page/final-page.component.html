@@ -4,9 +4,10 @@
           <br><h1 class="text-center"><strong>{{ tittle }}</strong></h1><br>
           <h3 class="text-center"><small>{{ encouragingMessage }}</small></h3>
           <div class="text-center" >
-              <h4>Puntos obtenidos por jugar: {{ pointsTogive }} puntos</h4><br>
-              <p>Puntuación total obtenida: {{ userScore }} puntos</p><br>
-              <p>Nº de fallos cometidos: {{ userFails }} fallos</p>
+              <h4 >Puntos obtenidos por jugar: {{ pointsTogive }} puntos</h4><br>
+              <p *ngIf="arcadeMode">Puntuación total obtenida: {{ userScore }} puntos</p><br>
+              <p *ngIf="arcadeMode">Nº de fallos cometidos: {{ userFails }} fallos</p>
+              <p *ngIf="survivalMode">Nº de vidas restantes: {{ userLives }} vidas</p>
               <animation-success></animation-success>
           </div>
         <div class="text-center">
