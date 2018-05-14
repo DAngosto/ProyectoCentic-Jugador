@@ -8,6 +8,12 @@ import { Collection } from '../interfaces/Collection';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import { Configuration } from '../interfaces/Configuration';
 
+import { ErrorService } from '../services/error.service';
+
+import { ActivatedRoute, Router} from '@angular/router';
+
+
+
 
  
 const httpOptions = {
@@ -38,7 +44,7 @@ export class DataService {
 
     
  
-    constructor(private http:HttpClient) {}
+    constructor(private http:HttpClient, private _errorService: ErrorService, private router:Router) {}
  
 
     getPointsValue() {
@@ -116,37 +122,59 @@ export class DataService {
             localStorage.setItem("dataPoints", response['data']['points']);
             this.messageSource2.next(response['config']);
 
-            //En vez de coger el 0 sería aquella coleccion que pasen por parametros
-            if(this.collections[0].gamemode==0){
-                console.log("arcade");
-                localStorage.setItem("gamemode", "0");
-                localStorage.setItem("successpoints", this.messageSource2.value['arcadesuccesspoints']);
-                localStorage.setItem("failpoints", this.messageSource2.value['arcadefailpoints']);
-            }
-            else if(this.collections[0].gamemode==1){
-                console.log("survival");
-                localStorage.setItem("gamemode", "1");
-                /*
-                localStorage.setItem("successpoints", this.messageSource2.value['survivalsuccesspoints']);
-                localStorage.setItem("failpoints", this.messageSource2.value['survivalfailpoints']);
-                */
-                localStorage.setItem("survivallives", this.messageSource2.value['survivallives']);
-            }
-
-            var cardsCollection = this.collections[0].cards.split(',');
-            for(let i=0;i<cardsCollection.length;i++){
-                for(let j=0;j<this.allCards.length;j++){
-                    if (cardsCollection[i]==this.allCards[j]._id){
-                        this.cards.push(this.allCards[j]);
-                    }
+            //Buscamos si está publish true la coleccion solciitada, en casod e estarlo se conjtinua normalmente y en su defecto se redirige a la ventana de error con su mensaje correspondiente
+            var collection = localStorage.getItem('collection');
+            let collectionParsed= JSON.parse(collection).collection;
+            var wantedCollection;
+            var collectionFound: boolean = false;
+            for(let i=0;i<this.collections.length;i++){
+                if(this.collections[i]._id==collectionParsed){
+                    wantedCollection = this.collections[i];
+                    collectionFound = true;
+                    break;
                 }
             }
-            if (this.cards.length!=6){
-                    console.log("no se han encontrado las 6 cartas de la coleccion en el get info");
+
+            if(collectionFound){
+
+                if(wantedCollection.gamemode==0){
+                    console.log("arcade");
+                    localStorage.setItem("gamemode", "0");
+                    localStorage.setItem("successpoints", this.messageSource2.value['arcadesuccesspoints']);
+                    localStorage.setItem("failpoints", this.messageSource2.value['arcadefailpoints']);
+                }
+                else if(wantedCollection.gamemode==1){
+                    console.log("survival");
+                    localStorage.setItem("gamemode", "1");
+                    /*
+                    localStorage.setItem("successpoints", this.messageSource2.value['survivalsuccesspoints']);
+                    localStorage.setItem("failpoints", this.messageSource2.value['survivalfailpoints']);
+                    */
+                    localStorage.setItem("survivallives", this.messageSource2.value['survivallives']);
+                }
+    
+                var cardsCollection = wantedCollection.cards.split(',');
+                for(let i=0;i<cardsCollection.length;i++){
+                    for(let j=0;j<this.allCards.length;j++){
+                        if (cardsCollection[i]==this.allCards[j]._id){
+                            this.cards.push(this.allCards[j]);
+                        }
+                    }
+                }
+                if (this.cards.length!=6){
+                    this._errorService.setError("La colección que usted está intentando jugar no posee 6 cartas jugables y por lo tanto no está permitido jugarla.");
+                    this.router.navigate(["error"]);
+                }
+
             }
             else{
-                console.log("Se han encontrado las 6 cartas de la coleccion en el get info");
+                this._errorService.setError("La colección que usted está intentando jugar no está disponible en estos momentos.");
+                this.router.navigate(["error"]);
             }
+
+
+
+            
 
 
             return response;

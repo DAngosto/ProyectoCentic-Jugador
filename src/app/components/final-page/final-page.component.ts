@@ -19,6 +19,7 @@ export class FinalPageComponent implements OnInit {
   gamemode:number;
   userScore:number;
   userFails:number;
+  userLives:number;
   tittle:string;
   encouragingMessage:string;
 
@@ -81,9 +82,29 @@ export class FinalPageComponent implements OnInit {
         
       });  
       */
-
-
     }else if(this.gamemode==1){
+
+      this.userLives = this._gameplayService.getActualLives();
+      
+      this.pointsTogive = this.calculationOfPointsToBeAwarded(1);
+      
+      console.log(this.pointsTogive);
+      console.log(this.selectedMessage);
+      this.finalScreenPreparation();
+      this._dataService.givePointsuser(this.pointsTogive).subscribe(data=>{
+        if(data["Error"]=="5002"){
+          console.log(data);
+          this._errorService.setError("La invitación con la que inició el juego ya ha sido usada.");
+          this.router.navigate(["error"]);
+        }
+        else{
+          console.log(data);
+          this.gameRanking = "Ranking en el juego: " + data['match_ranking'] +"º";
+          this.gameScore = "Puntuación del juego: "+ data['match_score'] +" puntos";
+          this.generalRanking = "Ranking en la aplicación del Centic: "+ data['session_ranking'] +"º";
+          this.generalScore = "Puntuación general: " + data['session_score'] +" puntos";
+        }
+      });
 
     }
 
@@ -125,46 +146,75 @@ export class FinalPageComponent implements OnInit {
   }
 
   calculationOfPointsToBeAwarded(gamemode):number{
-    var points = Number(localStorage.getItem("dataPoints"));
+    var iniPoints = Number(localStorage.getItem("dataPoints"));
+
+    //Establecemos los limites de puntuaciones
+    var tenPercent = Math.round((10 * iniPoints)/100);
+    var thirtyPercent = Math.round((30 * iniPoints)/100);
+    var fiftyPercent = Math.round((50 * iniPoints)/100);
+    var seventyPercent = Math.round((70 * iniPoints)/100);
 
     if(gamemode==0){
-      //Establecemos los limites de puntuaciones
-      var tenPercent = Math.round((10 * points)/100);
-      var thirtyPercent = Math.round((30 * points)/100);
-      var fiftyPercent = Math.round((50 * points)/100);
-      var seventyPercent = Math.round((70 * points)/100);
-
-      if(this.userScore<(5*points)){
+      if(this.userScore<(5*iniPoints)){
         this.selectedMessage = 0;
         return tenPercent;
       }
-      else if ((this.userScore>=(5*points)) && (this.userScore<(10*points)) ){
+      else if ((this.userScore>=(5*iniPoints)) && (this.userScore<(10*iniPoints)) ){
         this.selectedMessage = 1;
         return thirtyPercent;
       }
-      else if ((this.userScore>=(10*points)) && (this.userScore<(15*points)) ){
+      else if ((this.userScore>=(10*iniPoints)) && (this.userScore<(15*iniPoints)) ){
         this.selectedMessage = 2;
         return fiftyPercent;
       }
-      else if ((this.userScore>=(15*points)) && (this.userScore<(20*points)) ){ 
+      else if ((this.userScore>=(15*iniPoints)) && (this.userScore<(20*iniPoints)) ){ 
         this.selectedMessage = 3;
         return seventyPercent;
       }
-      else if ((this.userScore>=(20*points))){
+      else if ((this.userScore>=(20*iniPoints))){
         this.selectedMessage = 4;
-        return points;
+        return iniPoints;
       }
 
       //1 + 2 + 3 + 4 + 5 + 6 = 21 * points sería una partida perfecta sin usar comodin x2. Debido a que existe este comodin le sumamos a ese resultado unos 200 puntos
       //21/4 = 5,25
 
     }
-    else{
-      return points;
+    else if(gamemode==1){
+      var iniLives = Number(localStorage.getItem("survivallives"));
+
+      //Establecemos los limites de puntuaciones
+      var twentyPercentLives = Math.round((20 * iniLives)/100);
+      var fourtyPercentLives = Math.round((40 * iniLives)/100);
+      var sixtyPercentLives = Math.round((60 * iniLives)/100);
+      var eightyPercentLives = Math.round((80 * iniLives)/100);
+      //habra un minimo de 5 vidas siempre para que asi podamos dividir los puntos ya que sino sería imposible
+
+      if(this.userLives<twentyPercentLives){
+        this.selectedMessage = 0;
+        return tenPercent;
+      }
+      else if ((this.userLives>=twentyPercentLives) && (this.userLives<fourtyPercentLives) ){
+        this.selectedMessage = 1;
+        return thirtyPercent;
+      }
+      else if ((this.userLives>=fourtyPercentLives) && (this.userLives<sixtyPercentLives) ){
+        this.selectedMessage = 2;
+        return fiftyPercent;
+      }
+      else if ((this.userLives>=sixtyPercentLives) && (this.userLives<eightyPercentLives) ){ 
+        this.selectedMessage = 3;
+        return seventyPercent;
+      }
+      else if ((this.userLives>=eightyPercentLives)){
+        this.selectedMessage = 4;
+        return iniPoints;
+      }
+      
     }
-    
-
-
+    else{
+      return iniPoints;
+    }
   }
 
 /*

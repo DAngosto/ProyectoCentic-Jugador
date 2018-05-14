@@ -19,6 +19,7 @@ export class HomeComponent implements OnInit {
 
   invitation:string = "";
   validation:string = "";
+  collection:string = "";
 
   titulo:string="ucam2";
 
@@ -40,6 +41,11 @@ export class HomeComponent implements OnInit {
         console.log(this.validation);
         localStorage.setItem('validation', JSON.stringify({ validation:this.validation}));
 
+        
+        localStorage.setItem('collection', null);
+        this.collection = params["collection"];
+        console.log(this.collection);
+        localStorage.setItem('collection', JSON.stringify({ collection:this.collection}));
         //localStorage.setItem('validation', this.validation);
 
         //if(this.invitation!="" && this.validation!="" && typeof(params["invitation"]) != "undefined" && typeof(params["validation"]) != "undefined" ){
