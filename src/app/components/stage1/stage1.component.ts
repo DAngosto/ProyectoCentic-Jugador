@@ -73,7 +73,7 @@ export class Stage1Component implements OnInit {
   ngOnInit() {
 
       
-          this._dataService.getInfo().subscribe(response=>{
+          
 
             localStorage.setItem('comodinMulti', "1");
             localStorage.setItem('comodinVolteo', "1");
@@ -148,7 +148,7 @@ export class Stage1Component implements OnInit {
             //console.log(this.cards);
       */
       
-          });
+         
       //}else{
       //  this.router.navigate(["error"]);
       //}

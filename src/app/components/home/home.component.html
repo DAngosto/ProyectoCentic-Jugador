@@ -1,10 +1,25 @@
-<div align="center">
-  <p>Texto de inicio</p>
-  <button type="button" class="btn btn-default" data-dismiss="modal" (click)= "startGame()">Jugar</button>
 
 
-  <button type="button" class="btn btn-default" data-dismiss="modal" (click)= "final()">ir al final</button>
 
+<div id="page-wrapper">
+  <div class="contact-clean">
+      <form class="text-center">
+          <br><h1 class="text-center"><strong>El modo de juego elegido para jugar ha sido {{ gamemodeTittle }}</strong></h1><br>
+          <div class="form-group">
+            <h3>Tutorial</h3>
+            <textarea class="form-control" rows="11" name="tutorial" placeholder="{{ gameplayTutorial }}" *ngIf="arcade" disabled></textarea>
+            <textarea class="form-control" rows="5" name="tutorial" placeholder="{{ gameplayTutorial }}" *ngIf="survival" disabled></textarea>
+          </div>
+
+          <div class="col-md-40 m-40">
+            <button type="button" class="btn btn-warning btnJugar" (click)="startGame()">¡ Empezar a jugar !</button>
+          </div>
+          
+          
+      </form>
+      
+
+</div>
 </div>
 
 

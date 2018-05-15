@@ -148,8 +148,13 @@ export class FinalPageComponent implements OnInit {
         this.encouragingMessage = "¿Quiéres que te ayude a levantarte?";
         break;
       case 1:
-        this.tittle = "¡Podría haber sido peor!";
-        this.encouragingMessage = "Intenta aprender de tus errores y reventar el score la próxima partida";
+        if(this.gamemode==0){
+          this.tittle = "¡Podría haber sido peor!";
+          this.encouragingMessage = "Intenta aprender de tus errores y reventar el score la próxima partida";
+        }else{
+          this.tittle = "¡Podría haber sido peor!";
+          this.encouragingMessage = "¡Intenta aprender de tus errores y no fallar tanto con la misma carta!";
+        }
         break;
       case 2:
         this.tittle = "¡Felicidades!";

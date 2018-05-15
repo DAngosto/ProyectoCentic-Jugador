@@ -77,6 +77,7 @@ export class GameplayService implements OnInit{
       return false;
     }
     else{
+      this.lives--;
       return true;
     }
   }
