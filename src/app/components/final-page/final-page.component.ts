@@ -120,6 +120,7 @@ export class FinalPageComponent implements OnInit {
         }
         else{
           console.log(data);
+          this._gameplayService.finalSound();
           this.gameRanking = "Ranking en el juego: " + data['match_ranking'] +"º";
           this.gameScore = "Puntuación del juego: "+ data['match_score'] +" puntos";
           this.generalRanking = "Ranking en la aplicación del Centic: "+ data['session_ranking'] +"º";
