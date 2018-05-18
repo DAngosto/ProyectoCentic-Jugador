@@ -4,4 +4,5 @@ export interface Configuration {
     timeout: number,
     delay: number,
     cardCover: string;
-}
+
+}/// END OF INTERFACE Configuration ///

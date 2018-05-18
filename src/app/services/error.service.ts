@@ -1,8 +1,7 @@
+//MODULES
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 import {Observable} from 'rxjs/Observable';
-
-
 
 @Injectable()
 export class ErrorService {
@@ -13,17 +12,13 @@ export class ErrorService {
 
   constructor() { }
 
-
-
-
   getActualError(): string{
     return this.error;
   }
-
 
   setError(error: string){
     this.error = error;
     this.messageSource.next(error);
   }
 
-}
+}// END OF SERVICE ErrorService

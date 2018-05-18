@@ -1,4 +1,5 @@
-import { Component, OnInit} from '@angular/core';
+//MODULES
+import { Component, OnInit } from '@angular/core';
 
 @Component({
   selector: 'animation-trophy',
@@ -20,7 +21,7 @@ export class AnimationTrophy {
 
   constructor() {
       this.lottieConfig = {
-          path: 'assets/trophy.json',
+          path: 'assets/animations/trophy.json',
           autoplay: true,
           loop: true
       };
@@ -34,4 +35,4 @@ export class AnimationTrophy {
       this.anim.stop();
   }
 
-}// END OF LOTTIE-ANIMATION2 COMPONENT
+}/// END OF COMPONENT AnimationTrophy ///

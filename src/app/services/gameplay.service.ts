@@ -1,13 +1,12 @@
+//MODULES
 import { Injectable, OnInit } from '@angular/core';
 import { BehaviorSubject } from 'rxjs/BehaviorSubject';
 
+//SETTINGS
 import {AppSettings} from '../appSettings';
-
-
 
 @Injectable()
 export class GameplayService implements OnInit{
-
 
   score: number = 0;
   private messageSource = new BehaviorSubject<number>(this.score);
@@ -26,26 +25,9 @@ export class GameplayService implements OnInit{
   scoreDecrement: number; 
   numberLives: number;
 
-
-  
-
   constructor() { }
 
   ngOnInit() {
-
-    /*
-    console.log("puntos arcade servicio" + localStorage.getItem("arcadesuccesspoints"));
-    this.gamemode = Number(localStorage.getItem("gamemode"));
-    if(this.gamemode==0){
-      this.scoreIncrement = Number(localStorage.getItem("arcadesuccesspoints"));
-      this.scoreDecrement = Number(localStorage.getItem("arcadefailpoints"));
-    }
-    else if(this.gamemode==1){
-      this.scoreIncrement = Number(localStorage.getItem("survivalsuccesspoints"));
-      this.scoreDecrement = Number(localStorage.getItem("survivalfailpoints"));
-      this.numberLives = Number(localStorage.getItem("survivallives"));
-    }
-    */
   }
 
   incrementScore(){
@@ -55,8 +37,7 @@ export class GameplayService implements OnInit{
   decrementScore(){
     if((this.score-Number(localStorage.getItem("failpoints")))<0){
       this.score = 0;
-    }
-    else{
+    }else{
       this.score = this.score - Number(localStorage.getItem("failpoints"));
     }
   }
@@ -65,18 +46,15 @@ export class GameplayService implements OnInit{
     this.lives = quantity;
   }
 
-
   getActualScore(): number{
     return this.score;
   }
-
 
   decrementLives(): boolean{
     if((this.lives-1)>0){
       this.lives--;
       return false;
-    }
-    else{
+    }else{
       this.lives--;
       return true;
     }
@@ -96,28 +74,28 @@ export class GameplayService implements OnInit{
   
   changeStageSound(){
     var audio = new Audio();
-    audio.src = "../../assets/changeStage.wav";
+    audio.src = "../../assets/audios/changeStage.wav";
     audio.load();
     audio.play();
   }
 
   successSound(){
     var audio = new Audio();
-    audio.src = "../../assets/success.wav";
+    audio.src = "../../assets/audios/success.wav";
     audio.load();
     audio.play();
   }
 
   looseSound(){
     var audio = new Audio();
-    audio.src = "../../assets/loose.wav";
+    audio.src = "../../assets/audios/loose.wav";
     audio.load();
     audio.play();
   }
 
   finalSound(){
     var audio = new Audio();
-    audio.src = "../../assets/finalpage.wav";
+    audio.src = "../../assets/audios/finalpage.wav";
     audio.load();
     audio.play();
     return audio;
@@ -129,16 +107,16 @@ export class GameplayService implements OnInit{
 
   jokerMultiSound(){
     var audio = new Audio();
-    audio.src = "../../assets/jokerMulti.wav";
+    audio.src = "../../assets/audios/jokerMulti.wav";
     audio.load();
     audio.play();
   }
 
   jokerVolteoSound(){
     var audio = new Audio();
-    audio.src = "../../assets/jokerVolteo.wav";
+    audio.src = "../../assets/audios/jokerVolteo.wav";
     audio.load();
     audio.play();
   }
 
-}
+}// END OF SERVICE GameplayService

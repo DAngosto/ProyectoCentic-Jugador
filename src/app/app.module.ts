@@ -1,25 +1,17 @@
+//MODULES
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { Component} from '@angular/core';
+import { Component } from '@angular/core';
 import { LottieAnimationViewModule } from 'ng-lottie';
-
 import { HttpClientModule } from '@angular/common/http'; 
-
-import { HttpModule } from '@angular/http';
-
 import { FormsModule } from '@angular/forms';
-import { DataService } from './services/data.service';   // our custom service responsible of communications between the front-end and back-end of the application
-import { GameplayService } from './services/gameplay.service'; 
-import { ErrorService } from './services/error.service'; 
 
+//COMPONENTS
 import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { LottieAnimationComponent } from './components/lottie-animation/lottie-animation.component';
 import { animationSuccess } from './components/lottie-animation/lottie-animation2.component';
-
-
-
 import { ErrorComponent } from './components/error/error.component';
 import { Stage1Component } from './components/stage1/stage1.component';
 import { Stage6Component } from './components/stage6/stage6.component';
@@ -29,8 +21,10 @@ import { Stage4Component } from './components/stage4/stage4.component';
 import { Stage5Component } from './components/stage5/stage5.component';
 import { FinalPageComponent } from './components/final-page/final-page.component';
 
-
-
+//SERVICES
+import { DataService } from './services/data.service';
+import { GameplayService } from './services/gameplay.service'; 
+import { ErrorService } from './services/error.service'; 
 
 @NgModule({
   declarations: [
@@ -46,16 +40,13 @@ import { FinalPageComponent } from './components/final-page/final-page.component
     Stage4Component,
     Stage5Component,
     FinalPageComponent
-
   ],
   imports: [
     BrowserModule,
     FormsModule, 
     HttpClientModule,
-    HttpModule,
     LottieAnimationViewModule.forRoot(),
     RouterModule.forRoot([
-      
       { path: '', component: HomeComponent },
       { path: 'home', component: HomeComponent },
       { path: 'stage1', component: Stage1Component },
@@ -65,11 +56,12 @@ import { FinalPageComponent } from './components/final-page/final-page.component
       { path: 'stage5', component: Stage5Component },
       { path: 'stage6', component: Stage6Component },
       { path: 'final', component: FinalPageComponent },
-      { path: 'error', component: ErrorComponent }
-      
+      { path: 'error', component: ErrorComponent },
+      { path: '**', redirectTo: '/home', pathMatch: 'full' }
     ])
   ],
   providers: [DataService, GameplayService, ErrorService],
   bootstrap: [AppComponent]
 })
+
 export class AppModule { }

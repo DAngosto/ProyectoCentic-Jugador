@@ -1,28 +1,33 @@
 <div id="page-wrapper">
-  <div class="contact-clean">
-      <form method="post">
-          <br><h1 class="text-center"><strong>{{ tittle }}</strong></h1><br>
-          <h3 class="text-center"><small>{{ encouragingMessage }}</small></h3>
-          <div class="text-center" >
-              <h4 >Puntos obtenidos por jugar: {{ pointsTogive }} puntos</h4><br>
-              <p *ngIf="arcadeMode">Puntuación total obtenida: {{ userScore }} puntos</p><br>
-              <p *ngIf="arcadeMode">Nº de fallos cometidos: {{ userFails }} fallos</p>
-              <p *ngIf="survivalMode">Nº de vidas restantes: {{ userLives }} vidas</p>
-              <animation-success></animation-success>
-          </div>
-        <div class="text-center">
-          <h5 class="text-center">¡Tus estadísiticas han cambiado!, ahora son:</h5><br>
-          <div class="text-center" *ngIf="!mensaje">
-              <p ><i class="fa fa-trophy"></i>{{gameRanking}}</p>
-              <p  ><i class="fa fa-gamepad fa-fw"></i>{{gameScore}}</p>
-              <p ><i class="fa fa-users"></i>{{generalRanking}}</p>
-              <p ><i class="fa fa-globe"></i>{{generalScore}}</p>
-          </div>
-        </div> 
-          
-      </form><br>
-      
-
-</div>
+    <div class="contact-clean">
+        <form method="post">
+            <br>
+            <h1 class="text-center"><strong>{{ tittle }}</strong></h1>
+            <br>
+            <h3 class="text-center">
+                <small>{{ encouragingMessage }}</small>
+            </h3>
+            <div class="text-center" >
+                <h4>Puntos obtenidos por jugar: {{ pointsTogive }} puntos</h4>
+                <br>
+                <p *ngIf="arcadeMode">Puntuación total obtenida: {{ userScore }} puntos</p>
+                <br>
+                <p *ngIf="arcadeMode">Nº de fallos cometidos: {{ userFails }} fallos</p>
+                <p *ngIf="survivalMode">Nº de vidas restantes: {{ userLives }} vidas</p>
+                <animation-success></animation-success>
+            </div>
+            <div class="text-center">
+                <h5 class="text-center">¡Tus estadísiticas han cambiado!, ahora son:</h5>
+                <br>
+                <div class="text-center" *ngIf="!mensaje">
+                    <p><i class="fa fa-trophy"></i>{{gameRanking}}</p>
+                    <p><i class="fa fa-gamepad fa-fw"></i>{{gameScore}}</p>
+                    <p><i class="fa fa-users"></i>{{generalRanking}}</p>
+                    <p><i class="fa fa-globe"></i>{{generalScore}}</p>
+                </div>
+            </div>  
+        </form>
+        <br>
+    </div>
 </div>
 
