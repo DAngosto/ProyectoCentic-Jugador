@@ -129,10 +129,18 @@ export class Stage2Component implements OnInit {
     }
   }
 
+  /*
+  EN:Function in charge of hiding the information of the new card and allowing the player to play the current phase.
+  ES:Función encargada de ocultar la información de la nueva carta y permitir al jugador jugar la fase actual.
+  */
   playGame(){
     this.sawGame = true;
   }
 
+  /*
+  EN:Function in charge of activating the joker selected by the player.
+  ES:Función encargada de activar el comodín seleccionado por el jugador.
+  */
   useJoker(idComodin){
     switch (idComodin){
       case 1:
@@ -159,6 +167,10 @@ export class Stage2Component implements OnInit {
     }
   }
 
+  /*
+  EN:Function in charge of showing or hiding the cards selected by the player.
+  ES:Función encargada de mostrar u ocultar las cartas seleccionadas por el jugador.
+  */
   changeUrl(id, reset){
     switch(id){
       case 0:
@@ -192,6 +204,10 @@ export class Stage2Component implements OnInit {
     }
   }
 
+  /*
+  EN:Function in charge of storing the first card selected by the player and comparing it with the second one to see if they match.
+  ES:Función encargada de almacenar la primera carta seleccionada por el jugador y compararla con la segunda para ver si estas coinciden.
+  */
   sawCard(id){
     if (!this.checkCardsNext){
       var cardDone = false;

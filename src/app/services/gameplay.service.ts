@@ -30,10 +30,18 @@ export class GameplayService implements OnInit{
   ngOnInit() {
   }
 
+  /*
+  EN:Function in charge of increasing the player's score.
+  ES:Función encargada de aumentar la puntuación del jugador.
+  */
   incrementScore(){
     this.score = this.score + Number(localStorage.getItem("successpoints"));
   }
 
+  /*
+  EN:Function in charge of decreasing the player's score.
+  ES:Función encargada de disminuir la puntuación del jugador.
+  */
   decrementScore(){
     if((this.score-Number(localStorage.getItem("failpoints")))<0){
       this.score = 0;
@@ -50,6 +58,10 @@ export class GameplayService implements OnInit{
     return this.score;
   }
 
+  /*
+  EN:Function in charge of decreasing the lives of the player and in case of being 0 return true to finish the game of the player.
+  ES:Función encargada de disminuir las vidas del jugador y en caso de ser 0 devolver true para así acabar la partida del jugador.
+  */
   decrementLives(): boolean{
     if((this.lives-1)>0){
       this.lives--;
@@ -72,6 +84,12 @@ export class GameplayService implements OnInit{
     return this.fails;
   }
   
+
+  /*
+  EN:Below you will find all the functions for reproducing sounds according to events that took place during the game.
+  ES:Hacia abajo se encuentran todas las funciones encargadas de reproducir sonidos según eventos sucedidos durante el juego.
+  */
+
   changeStageSound(){
     var audio = new Audio();
     audio.src = "../../assets/audios/changeStage.wav";
@@ -99,10 +117,6 @@ export class GameplayService implements OnInit{
     audio.load();
     audio.play();
     return audio;
-  }
-
-  stopFinalSound(audio){
-    audio.stop();
   }
 
   jokerMultiSound(){

@@ -117,10 +117,18 @@ export class Stage1Component implements OnInit {
     this.url12 = '../../../assets/images/dorsoTransparente.png';
   }
 
+  /*
+  EN:Function in charge of hiding the information of the new card and allowing the player to play the current phase.
+  ES:Función encargada de ocultar la información de la nueva carta y permitir al jugador jugar la fase actual.
+  */
   playGame(){
     this.sawGame = true;
   }
 
+  /*
+  EN:Function in charge of activating the joker selected by the player.
+  ES:Función encargada de activar el comodín seleccionado por el jugador.
+  */
   useJoker(idComodin){
     switch (idComodin){
       case 1:
@@ -148,6 +156,10 @@ export class Stage1Component implements OnInit {
     }
   }
 
+  /*
+  EN:Function in charge of showing or hiding the cards selected by the player.
+  ES:Función encargada de mostrar u ocultar las cartas seleccionadas por el jugador.
+  */
   changeUrl(id, reset){
     switch(id){
       case 0:
@@ -167,6 +179,10 @@ export class Stage1Component implements OnInit {
     }
   }
 
+  /*
+  EN:Function in charge of storing the first card selected by the player and comparing it with the second one to see if they match.
+  ES:Función encargada de almacenar la primera carta seleccionada por el jugador y compararla con la segunda para ver si estas coinciden.
+  */
   sawCard(id){
     if (!this.checkCardsNext){
       var cardDone = false;
@@ -185,7 +201,6 @@ export class Stage1Component implements OnInit {
         this.changeUrl(id,true);
       }
     }else{
-      //Primero comprobamos si esa carta ya se ha completado
       var cardDone = false;
       for(var i=0;i<this.correctIDs.length;i++){
         if(this.correctIDs[i]==this.randomCards[id]._id){
@@ -193,7 +208,6 @@ export class Stage1Component implements OnInit {
           break;
         }
       }
-      //En el caso de que no se haya compeltado procedemos a comprobar si es la misma carta
       if(!cardDone){
         this.checkCardsNext = false;
         if(this.cardCheck2==id){

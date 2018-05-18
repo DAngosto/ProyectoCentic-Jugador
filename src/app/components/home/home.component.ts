@@ -85,6 +85,10 @@ export class HomeComponent implements OnInit {
     );
   }
 
+  /*
+  EN:Function in charge of redirecting the player to the first phase of the game.
+  ES:Función encargada de redirigir al jugador a la primera fase del juego.
+  */
   startGame(){
     this.router.navigate(["stage1"]);
   }

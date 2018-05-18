@@ -93,6 +93,10 @@ export class FinalPageComponent implements OnInit {
     }
   }
 
+  /*
+  EN:Function in charge of preparing the text to be shown to the player on the screen depending on the score or remaining lives of the player.
+  ES:Función encargada de preparar el texto a mostrar al jugador en la pantalla dependiendo del score o vidas restantes del jugador.
+  */
   finalScreenPreparation(){
     switch(this.selectedMessage){
       case 0:
@@ -127,9 +131,12 @@ export class FinalPageComponent implements OnInit {
     }
   }
 
+  /*
+  EN:Function responsible for calculating the prize points to be awarded to the player for the game played.
+  ES:Función encargada de calcular los puntos de premio a entregar al jugador por la partida realizada.
+  */
   calculationOfPointsToBeAwarded(gamemode):number{
     var iniPoints = Number(localStorage.getItem("dataPoints"));
-    //Establecemos los limites de puntuaciones
     var tenPercent = Math.round((10 * iniPoints)/100);
     var thirtyPercent = Math.round((30 * iniPoints)/100);
     var fiftyPercent = Math.round((50 * iniPoints)/100);
@@ -151,16 +158,12 @@ export class FinalPageComponent implements OnInit {
         this.selectedMessage = 4;
         return iniPoints;
       }
-      //1 + 2 + 3 + 4 + 5 + 6 = 21 * points sería una partida perfecta sin usar comodin x2. Debido a que existe este comodin le sumamos a ese resultado unos 200 puntos
-      //21/4 = 5,25
     }else if(gamemode==1){
       var iniLives = Number(localStorage.getItem("survivallives"));
-      //Establecemos los limites de puntuaciones
       var twentyPercentLives = Math.round((20 * iniLives)/100);
       var fourtyPercentLives = Math.round((40 * iniLives)/100);
       var sixtyPercentLives = Math.round((60 * iniLives)/100);
       var eightyPercentLives = Math.round((80 * iniLives)/100);
-      //habra un minimo de 5 vidas siempre para que asi podamos dividir los puntos ya que sino sería imposible
       if(this.userLives<twentyPercentLives){
         this.selectedMessage = 0;
         return tenPercent;

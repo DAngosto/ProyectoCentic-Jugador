@@ -37,6 +37,10 @@ export class DataService {
 
     constructor(private http:HttpClient, private _errorService: ErrorService, private router:Router) {}
  
+    /*
+    EN:Function in charge of obtaining the points value assigned in the API.
+    ES:Función encargada de obtener el valor points asignado en la API.
+    */
     getPointsValue() {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         let invitation= localStorage.getItem('invitation');
@@ -44,6 +48,10 @@ export class DataService {
         return this.http.get(AppSettings.API_ENDPOINT_INFO + invitationParsed, { headers: headers});
     }
 
+    /*
+    EN:Function in charge of delivering the points assigned to the player for the game played in the API.
+    ES:Función encargada de entregar los puntos asignados al jugador por la partida realizada en la API.
+    */
     givePointsuser(points) {
         let headers = new HttpHeaders({ 'Content-Type': 'application/json' });
         let invitation= localStorage.getItem('invitation');
@@ -62,6 +70,10 @@ export class DataService {
         return this.http.post(AppSettings.API_ENDPOINT_SENDPOINTS,body, { headers: headers});
     }
 
+    /*
+    EN:Function in charge of obtaining the necessary information to be able to perform the game of the player from the API.
+    ES:Función encargada de obtener la información necesaria para poder realizar la partida del jugador de la API.
+    */
     getInfo(){
         let headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -81,7 +93,6 @@ export class DataService {
             }
             localStorage.setItem("dataPoints", response['data']['points']);
             this.messageSource2.next(response['config']);
-            //Buscamos si está publish true la coleccion solciitada, en casod e estarlo se conjtinua normalmente y en su defecto se redirige a la ventana de error con su mensaje correspondiente
             var collection = localStorage.getItem('collection');
             let collectionParsed= JSON.parse(collection).collection;
             var wantedCollection: Collection;
@@ -124,6 +135,10 @@ export class DataService {
         });
     }
 
+    /*
+    EN:Function in charge of sending the statistics of the player's game to the API.
+    ES:Función encargada de enviar las estadísiticas de la partida del jugador a la API.
+    */
     updateStadistics(gamemode,score,fails,lives){
         let headers = new HttpHeaders()
             .set('Content-Type', 'application/json');
@@ -171,6 +186,10 @@ export class DataService {
         return this.http.put(AppSettings.API_ENDPOINT_GAMEITEMS + invitationParsed,body, { headers: headers });
     }
 
+    /*
+    EN:Function in charge of modifying the value of the points by success due to the use of the multiplier joker.
+    ES:Función encargada de modificar el valor de los puntos por acierto debido al uso del comodín multiplicador.
+    */
     setNewSuccessPoints(reset, value){
         if (reset){
             var aux = Number(localStorage.getItem("successpoints")) - (Number(localStorage.getItem("successpoints"))/2);
@@ -180,6 +199,10 @@ export class DataService {
         }
     }
 
+    /*
+    EN:Function in charge of adding a new card from the general collection to the player's collection in the current phase.
+    ES:Función encargada de añadir una nueva carta de la colección general a la colección del jugador en la fase actual.
+    */
     addNewCardDisplayed(): Card{
         var rand = Math.floor(Math.random() * this.cards.length);
         var cardAux = this.cards[rand];
