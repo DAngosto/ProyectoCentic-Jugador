@@ -1,6 +1,7 @@
 //MODULES
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router} from '@angular/router';
+import { trigger, state, style, animate, transition} from '@angular/animations';
 
 //SERVICES
 import { DataService } from '../../services/data.service';
@@ -18,7 +19,19 @@ import { AppSettings } from '../../appSettings';
 @Component({
   selector: 'app-stage1',
   templateUrl: './stage1.component.html',
-  styleUrls: ['./stage1.component.scss']
+  styleUrls: ['./stage1.component.scss'],
+  animations: [
+    trigger('jokerAnimation', [
+      state('hide',   style({
+        opacity: 1
+      })),
+      state('spin',   style({
+        transform: 'rotateY(180deg) ',
+      })),
+      transition('spin => hide', animate('600ms ease-out')),
+      transition('hide => spin', animate('600ms ease-in'))
+    ])
+  ]
 })
 
 export class Stage1Component implements OnInit {
@@ -60,6 +73,7 @@ export class Stage1Component implements OnInit {
   cardHistory: string;
   cardURL: string;
   stageCard: Card;
+  show = false;
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService, private _errorService: ErrorService) { }
 
@@ -117,6 +131,17 @@ export class Stage1Component implements OnInit {
     this.url12 = '../../../assets/images/dorsoTransparente.png';
   }
 
+  get stateName() {
+    return this.show ? 'spin' : 'hide'
+  }
+  /*
+  EN:Functions in charge of performing the flip animation when pressing the flip joker.
+  ES:Funciones encargadas de realizar la animación de volteo al pulsar el comodín de volteo.
+  */
+  toggle() {
+    this.show = !this.show;
+  }
+
   /*
   EN:Function in charge of hiding the information of the new card and allowing the player to play the current phase.
   ES:Función encargada de ocultar la información de la nueva carta y permitir al jugador jugar la fase actual.
@@ -141,17 +166,23 @@ export class Stage1Component implements OnInit {
             this._gameplayService.jokerMultiSound();
             break;
       case 2:
-            this._gameplayService.jokerVolteoSound();
-            for(let i=0;i<this.urlFilesSplitted.length;i++){
-              this.changeUrl(i,false);
-            }
-            setTimeout(()=>{
+            this.toggle();
+            setTimeout(()=>{ 
+              this._gameplayService.jokerVolteoSound();
+              for(let i=0;i<this.urlFilesSplitted.length;i++){
+                this.changeUrl(i,false);
+              }
+            },550);
+            setTimeout(()=>{ 
+              this.toggle();
+            },3000); 
+            setTimeout(()=>{    
               this.comodinVolteo = false;
               localStorage.setItem('comodinVolteo', "0");
               for(let i=0;i<this.urlFilesSplitted.length;i++){
                 this.changeUrl(i,true);
               }
-            },3000);
+            },3500);
             break;
     }
   }

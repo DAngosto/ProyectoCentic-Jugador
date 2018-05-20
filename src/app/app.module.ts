@@ -6,6 +6,7 @@ import { Component } from '@angular/core';
 import { LottieAnimationViewModule } from 'ng-lottie';
 import { HttpClientModule } from '@angular/common/http'; 
 import { FormsModule } from '@angular/forms';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 //COMPONENTS
 import { AppComponent } from './app.component';
@@ -45,6 +46,7 @@ import { ErrorService } from './services/error.service';
     BrowserModule,
     FormsModule, 
     HttpClientModule,
+    BrowserAnimationsModule,
     LottieAnimationViewModule.forRoot(),
     RouterModule.forRoot([
       { path: '', component: HomeComponent },
