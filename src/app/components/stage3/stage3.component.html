@@ -4,7 +4,7 @@
             <br>
             <h2 class="text-center">Carta: {{ cardName }}</h2>
             <div class="form-group">
-                <textarea class="form-control" rows="9" name="history" placeholder="{{ cardHistory }}" disabled></textarea>
+                <textarea class="form-control" rows="7" name="history" placeholder="{{ cardHistory }}" disabled></textarea>
             </div>
         </form>
         <br> 
@@ -13,17 +13,28 @@
         </div>
         <br>
         <br>
-        <br>
-        <br>
-        <br>
         <div class="col-md-40 m-40">
             <div class="text-center">
                 <div class="form-group" >
-                    <button class="btn btn-primary"  (click)="playGame()" > Play! </button>
+                    <div id="special-button">
+                        <button class="btn btn-primary"  (click)="playGame()" > ¡Comenzar la fase! </button>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                        <br>
+                    </div>
                 </div>
             </div>
         </div> 
-    </div> 
+    </div>
+</div>
+<div *ngIf="sawGame">
+    <button class="btn btn-primary btn-circle" (click)= "swapSoundState()" *ngIf="sound"><i class="glyphicon glyphicon-volume-up"></i></button>
+    <button class="btn btn-primary btn-circle" (click)= "swapSoundState()" *ngIf="!sound"><i class="glyphicon glyphicon-volume-off"></i></button>
 </div>
 <h1 class="text-center" *ngIf="arcade&&sawGame"><strong>Puntuación: {{ userScore }}</strong></h1>
 <div class="row col-md-12 text-left" *ngIf="arcade&&sawGame">

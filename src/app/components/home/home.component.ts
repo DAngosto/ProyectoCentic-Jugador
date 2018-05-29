@@ -62,7 +62,7 @@ export class HomeComponent implements OnInit {
         });
       }else{
         this._errorService.setError("En la url falta el parámetro validation o invitation.");
-        this.router.navigate(["error"]);
+        this.router.navigate(["error"], {replaceUrl:true});
       }
     });
    } 
@@ -90,7 +90,7 @@ export class HomeComponent implements OnInit {
   ES:Función encargada de redirigir al jugador a la primera fase del juego.
   */
   startGame(){
-    this.router.navigate(["stage1"]);
+    this.router.navigate(["stage1"], {replaceUrl:true});
   }
 
 }/// END OF COMPONENT HomeComponent ///

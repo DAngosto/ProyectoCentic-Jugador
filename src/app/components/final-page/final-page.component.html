@@ -14,16 +14,16 @@
                 <br>
                 <p *ngIf="arcadeMode">Nº de fallos cometidos: {{ userFails }} fallos</p>
                 <p *ngIf="survivalMode">Nº de vidas restantes: {{ userLives }} vidas</p>
-                <animation-success></animation-success>
+                <img *ngIf="sawImage" [src]=url>
+                <animation-success *ngIf="sawAnimation"></animation-success>
+                <br>
             </div>
             <div class="text-center">
                 <h5 class="text-center">¡Tus estadísiticas han cambiado!, ahora son:</h5>
                 <br>
                 <div class="text-center" *ngIf="!mensaje">
-                    <p><i class="fa fa-trophy"></i>{{gameRanking}}</p>
-                    <p><i class="fa fa-gamepad fa-fw"></i>{{gameScore}}</p>
-                    <p><i class="fa fa-users"></i>{{generalRanking}}</p>
-                    <p><i class="fa fa-globe"></i>{{generalScore}}</p>
+                    <p><i class="fa fa-trophy"></i> {{gameRanking}}</p>
+                    <p><i class="fa fa-gamepad fa-fw"></i> {{gameScore}}</p>
                 </div>
             </div>  
         </form>

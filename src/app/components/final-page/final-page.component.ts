@@ -33,10 +33,22 @@ export class FinalPageComponent implements OnInit {
   arcadeMode:boolean;
   survivalMode:boolean;
 
+  sound: boolean;
+
+  sawAnimation: boolean = false;
+  sawImage: boolean = false;
+  url: string="";
+
+
   constructor(private _gameplayService: GameplayService,private _dataService: DataService, private _errorService: ErrorService, private router:Router) { }
 
   ngOnInit() {
     this.gamemode = Number(localStorage.getItem("gamemode"));
+    if((localStorage.getItem('sound'))=='Y'){
+      this.sound = true;
+    }else{
+      this.sound = false;
+    }
     if(this.gamemode==0){
       this.arcadeMode=true;
       this.survivalMode=false;
@@ -44,48 +56,55 @@ export class FinalPageComponent implements OnInit {
       this.userFails = this._gameplayService.getActualFails();
       this.pointsTogive = this.calculationOfPointsToBeAwarded(0);
       this.finalScreenPreparation();
-      this._dataService.givePointsuser(this.pointsTogive).subscribe(data=>{
+      this._dataService.givePointsuser((this.pointsTogive*100)).subscribe(data=>{
         if(data["Error"]=="5002"){
           this._errorService.setError("La invitación con la que inició el juego ya ha sido usada.");
-          this.router.navigate(["error"]);
+          this.router.navigate(["error"], {replaceUrl:true});
         }else if(data["Error"]=="3008"){
           this._errorService.setError("Has jugado recientemente esta colección y por lo tanto es necesario que esperes un poco mas. Aguanta que falta ya poco :)");
-          this.router.navigate(["error"]);
+          this.router.navigate(["error"], {replaceUrl:true});
         }else if(data["Error"]=="3012"){
           this._errorService.setError("Has jugado todas las veces posibles. Lo siento pero esta partida no contará para tus estadísticas :(");
-          this.router.navigate(["error"]);
+          this.router.navigate(["error"], {replaceUrl:true});
+        }else if(data["Error"]["code"]=="404"){
+          this._errorService.setError("No se encontró una invitación válida");
+          this.router.navigate(["error"], {replaceUrl:true});
         }else{
-          this._gameplayService.finalSound();
+          if (this.sound){
+            this._gameplayService.finalSound();
+          }
           this.gameRanking = "Ranking en el juego: " + data['match_ranking'] +"º";
           this.gameScore = "Puntuación del juego: "+ data['match_score'] +" puntos";
-          this.generalRanking = "Ranking en la aplicación del Centic: "+ data['session_ranking'] +"º";
-          this.generalScore = "Puntuación general: " + data['session_score'] +" puntos";
           this._dataService.updateStadistics(0,this.userScore,this.userFails,0).subscribe(data=>{
           });
         }
       });
+      
     }else if(this.gamemode==1){
       this.arcadeMode=false;
       this.survivalMode=true;
       this.userLives = this._gameplayService.getActualLives();
       this.pointsTogive = this.calculationOfPointsToBeAwarded(1);
       this.finalScreenPreparation();
-      this._dataService.givePointsuser(this.pointsTogive).subscribe(data=>{
+      this._dataService.givePointsuser((this.pointsTogive*100)).subscribe(data=>{
         if(data["Error"]=="5002"){
           this._errorService.setError("La invitación con la que inició el juego ya ha sido usada o el código de verificación es erroneo.");
-          this.router.navigate(["error"]);
+          this.router.navigate(["error"], {replaceUrl:true});
         }else if(data["Error"]=="3008"){
           this._errorService.setError("Has jugado recientemente esta colección y por lo tanto es necesario que esperes un poco mas. Aguanta que falta ya poco :)");
-          this.router.navigate(["error"]);
+          this.router.navigate(["error"], {replaceUrl:true});
         }else if(data["Error"]=="3012"){
           this._errorService.setError("Has jugado todas las veces posibles. Lo siento pero esta partida no contará para tus estadísticas :(");
-          this.router.navigate(["error"]);
+          this.router.navigate(["error"], {replaceUrl:true});
+        }else if(data["Error"]["code"]=="404"){
+          this._errorService.setError("No se encontró una invitación válida");
+          this.router.navigate(["error"], {replaceUrl:true});
         }else{
-          this._gameplayService.finalSound();
+          if (this.sound){
+            this._gameplayService.finalSound();
+          }
           this.gameRanking = "Ranking en el juego: " + data['match_ranking'] +"º";
           this.gameScore = "Puntuación del juego: "+ data['match_score'] +" puntos";
-          this.generalRanking = "Ranking en la aplicación del Centic: "+ data['session_ranking'] +"º";
-          this.generalScore = "Puntuación general: " + data['session_score'] +" puntos";
           this._dataService.updateStadistics(1,0,0,this.userLives).subscribe(data=>{
           });
         }
@@ -102,6 +121,8 @@ export class FinalPageComponent implements OnInit {
       case 0:
             this.tittle = "Bueno...";
             this.encouragingMessage = "¿Quiéres que te ayude a levantarte?";
+            this.url='../../../assets/images/tombstone.jpg';
+            this.sawImage = true;
             break;
       case 1:
             if(this.gamemode==0){
@@ -111,18 +132,25 @@ export class FinalPageComponent implements OnInit {
               this.tittle = "¡Podría haber sido peor!";
               this.encouragingMessage = "¡Intenta aprender de tus errores y no fallar tanto con la misma carta!";
             }
+            this.url='../../../assets/images/bronzeTrophy.jpg';
+            this.sawImage = true;
             break;
       case 2:
             this.tittle = "¡Felicidades!";
             this.encouragingMessage = "Estás dentro de la media, sigue jugando y llegarás alto";
+            this.url='../../../assets/images/silverTrophy.jpg';
+            this.sawImage = true;
             break;
       case 3:
             this.tittle = "¡Esto si que no me lo esperaba!";
             this.encouragingMessage = "Te veo potencial joven padawan, estuviste cerca de tocar el cielo";
+            this.url='../../../assets/images/goldTrophy.jpg';
+            this.sawImage = true;
             break;
       case 4:
             this.tittle = "¡WOW! Eres increiblemente bueno";
             this.encouragingMessage = "Me has dejado sin palabras, ¡eres la leche! б（＞ε＜）∂";
+            this.sawAnimation = true;
             break;
       default:
             this.tittle = "Error";

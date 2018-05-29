@@ -75,13 +75,17 @@ export class Stage1Component implements OnInit {
   stageCard: Card;
   show = false;
 
+  sound: boolean;
+
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService, private _errorService: ErrorService) { }
 
   ngOnInit() {
     localStorage.setItem('comodinMulti', "1");
     localStorage.setItem('comodinVolteo', "1");
+    localStorage.setItem("sound",'Y');
     this.comodinMultiplicador = true;
     this.comodinVolteo = true;
+    this.sound=true;
     this.gamemode = Number(localStorage.getItem("gamemode"));
     if(this.gamemode==0){
       this.arcade = true;
@@ -95,7 +99,7 @@ export class Stage1Component implements OnInit {
     this.stageCard = this._dataService.addNewCardDisplayed();
     if(!this.stageCard){
       this._errorService.setError("No habia carta para mostrar");
-      this.router.navigate(["error"]);
+      this.router.navigate(["error"], {replaceUrl:true});
     }
     this.cardName = this.stageCard.name;
     this.cardHistory = this.stageCard.history;
@@ -150,6 +154,17 @@ export class Stage1Component implements OnInit {
     this.sawGame = true;
   }
 
+  swapSoundState() {
+    if (this.sound==true){
+      localStorage.setItem("sound",'N');
+      this.sound=false;
+
+    }else{
+      localStorage.setItem("sound",'Y');
+      this.sound=true;
+    }
+  }
+
   /*
   EN:Function in charge of activating the joker selected by the player.
   ES:Función encargada de activar el comodín seleccionado por el jugador.
@@ -163,12 +178,16 @@ export class Stage1Component implements OnInit {
             localStorage.setItem('comodinMulti', "0");
             this.jokerMultiWastedHere=true;
             this.userScore = this._gameplayService.getActualScore();
-            this._gameplayService.jokerMultiSound();
+            if (this.sound){
+              this._gameplayService.jokerMultiSound();
+            }
             break;
       case 2:
             this.toggle();
             setTimeout(()=>{ 
-              this._gameplayService.jokerVolteoSound();
+              if (this.sound){
+                this._gameplayService.jokerVolteoSound();
+              }
               for(let i=0;i<this.urlFilesSplitted.length;i++){
                 this.changeUrl(i,false);
               }
@@ -250,34 +269,44 @@ export class Stage1Component implements OnInit {
               this.correctIDs.push(this.cardCheck1);
               this.counter++;
               this.changeUrl(id,false);
-              this._gameplayService.successSound();
+              if (this.sound){
+                this._gameplayService.successSound();
+              }
               this._gameplayService.incrementScore();
               this.userScore = this._gameplayService.getActualScore();
               if(this.counter==1){
-                this._gameplayService.changeStageSound();
+                if (this.sound){
+                  this._gameplayService.changeStageSound();
+                }
                 if(this.jokerMultiWastedHere){
                   this._dataService.setNewSuccessPoints(true, 0);
                 }
                 setTimeout(()=>{
-                  this.router.navigate(["stage2"]);
+                  this.router.navigate(["stage2"], {replaceUrl:true});
                 },1000);
               }
             }else if (this.gamemode==1){
               this.correctIDs.push(this.cardCheck1);
               this.counter++;
               this.changeUrl(id,false);
-              this._gameplayService.successSound();
+              if (this.sound){
+                this._gameplayService.successSound();
+              }
               if(this.counter==1){
-                this._gameplayService.changeStageSound();
+                if (this.sound){
+                  this._gameplayService.changeStageSound();
+                }
                 setTimeout(()=>{
-                  this.router.navigate(["stage2"]);
+                  this.router.navigate(["stage2"], {replaceUrl:true});
                 },1000);
               }
             }
           }else{
             if(this.gamemode==0){
               this.changeUrl(id,false);
-              this._gameplayService.looseSound();
+              if (this.sound){
+                this._gameplayService.looseSound();
+              }
               this._gameplayService.decrementScore();
               this._gameplayService.incrementFails();
               this.userScore = this._gameplayService.getActualScore();
@@ -289,13 +318,15 @@ export class Stage1Component implements OnInit {
               this.changeUrl(id,false);
               var aux =  this._gameplayService.decrementLives();
               this.userLives = this._gameplayService.getActualLives();
-              this._gameplayService.looseSound();
+              if (this.sound){
+                this._gameplayService.looseSound();
+              }
               setTimeout(()=>{ 
                 this.changeUrl(id,true);
                 this.changeUrl(this.cardCheck2,true);
               },500);
               if(aux){
-                this.router.navigate(["final"]);
+                this.router.navigate(["final"], {replaceUrl:true});
               }
             }
           }
