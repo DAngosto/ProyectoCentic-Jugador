@@ -74,7 +74,6 @@ export class Stage1Component implements OnInit {
   cardURL: string;
   stageCard: Card;
   show = false;
-
   sound: boolean;
 
   constructor(private _dataService: DataService, private router:Router, private activatedRoute: ActivatedRoute, private _gameplayService: GameplayService, private _errorService: ErrorService) { }
@@ -124,13 +123,13 @@ export class Stage1Component implements OnInit {
     this.url1 = '../../../assets/images/dorsoTransparente.png';
     this.url2 = '../../../assets/images/dorsoTransparente.png';
     this.url3 = '../../../assets/images/dorsoTransparente.png';
-    this.url4 = '../../../assets/images/dorsoTransparente.png';
+    this.url4 = '../../../assets/images/flechabajo.png';
     this.url5 = this.gameConfig.cardCover;
     this.url6 = '../../../assets/images/dorsoTransparente.png';
     this.url7 = this.gameConfig.cardCover;
     this.url8 = '../../../assets/images/dorsoTransparente.png';
     this.url9 = '../../../assets/images/dorsoTransparente.png';
-    this.url10 = '../../../assets/images/dorsoTransparente.png';
+    this.url10 = '../../../assets/images/flechaarriba.png';
     this.url11 = '../../../assets/images/dorsoTransparente.png';
     this.url12 = '../../../assets/images/dorsoTransparente.png';
   }

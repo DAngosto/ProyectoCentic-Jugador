@@ -17,9 +17,9 @@ import { AppSettings } from '../../appSettings';
   providers: []
   
 })
+
 export class HomeComponent implements OnInit {
 
-  
   puntos?:any = 0;
   invitation:string = "";
   validation:string = "";

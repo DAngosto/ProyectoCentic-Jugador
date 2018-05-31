@@ -320,7 +320,6 @@ export class Stage5Component implements OnInit {
         this.changeUrl(id,false);
       }
     }else{
-      //Primero comprobamos si esa carta ya se ha completado
       var cardDone = false;
       for(var i=0;i<this.correctIDs.length;i++){
         if(this.correctIDs[i]==this.randomCards[id]._id){
@@ -328,7 +327,6 @@ export class Stage5Component implements OnInit {
           break;
         }
       }
-      //En el caso de que no se haya compeltado procedemos a comprobar si es la misma carta
       if(!cardDone){
         this.checkCardsNext = false;
         if(this.cardCheck2==id){

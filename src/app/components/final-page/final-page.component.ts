@@ -32,13 +32,10 @@ export class FinalPageComponent implements OnInit {
   //Alarm Conditions
   arcadeMode:boolean;
   survivalMode:boolean;
-
   sound: boolean;
-
   sawAnimation: boolean = false;
   sawImage: boolean = false;
   url: string="";
-
 
   constructor(private _gameplayService: GameplayService,private _dataService: DataService, private _errorService: ErrorService, private router:Router) { }
 
@@ -66,7 +63,7 @@ export class FinalPageComponent implements OnInit {
         }else if(data["Error"]=="3012"){
           this._errorService.setError("Has jugado todas las veces posibles. Lo siento pero esta partida no contará para tus estadísticas :(");
           this.router.navigate(["error"], {replaceUrl:true});
-        }else if(data["Error"]["code"]=="404"){
+        }else if(localStorage.getItem('invitation')=="{}"){
           this._errorService.setError("No se encontró una invitación válida");
           this.router.navigate(["error"], {replaceUrl:true});
         }else{
@@ -96,7 +93,7 @@ export class FinalPageComponent implements OnInit {
         }else if(data["Error"]=="3012"){
           this._errorService.setError("Has jugado todas las veces posibles. Lo siento pero esta partida no contará para tus estadísticas :(");
           this.router.navigate(["error"], {replaceUrl:true});
-        }else if(data["Error"]["code"]=="404"){
+        }else if(localStorage.getItem('invitation')=="{}"){
           this._errorService.setError("No se encontró una invitación válida");
           this.router.navigate(["error"], {replaceUrl:true});
         }else{

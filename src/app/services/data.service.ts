@@ -147,7 +147,7 @@ export class DataService {
         var collectionID =  localStorage.getItem("collectionid");
         var collectionName =  localStorage.getItem("collectionname");
         var today = new Date().toJSON().slice(0,10);
-        var jokerMultiWasted:boolean = false;
+         var jokerMultiWasted:boolean = false;
         var jokerVolteoWasted:boolean = false;
         var initLives = Number(localStorage.getItem("survivallives"));
         if(Number(localStorage.getItem('comodinMulti'))==0){
@@ -169,9 +169,8 @@ export class DataService {
                 "date": today.toString(),
                 "itemType": "2",
             }
-
-        }
-        else if(gamemode==1){
+    
+        }else if(gamemode==1){
             message = {
                 "collectionID": collectionID,
                 "collectionName": collectionName,
@@ -184,6 +183,7 @@ export class DataService {
         }
         let body= JSON.stringify(message);
         return this.http.put(AppSettings.API_ENDPOINT_GAMEITEMS + invitationParsed,body, { headers: headers });
+        
     }
 
     /*
