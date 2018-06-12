@@ -32,17 +32,19 @@
         </div> 
     </div>
 </div>
-<div *ngIf="sawGame">
+<div *ngIf="sawGame" id="normal-button">
     <button class="btn btn-primary btn-circle" (click)= "swapSoundState()" *ngIf="sound"><i class="glyphicon glyphicon-volume-up"></i></button>
     <button class="btn btn-primary btn-circle" (click)= "swapSoundState()" *ngIf="!sound"><i class="glyphicon glyphicon-volume-off"></i></button>
 </div>
-<h1 class="text-center" *ngIf="arcade&&sawGame"><strong>Puntuación: {{ userScore }}</strong></h1>
+<h1 class="text-center" *ngIf="arcade&&sawGame"><strong>Capacidad Memorística: {{ userScore }}</strong></h1>
 <div class="row col-md-12 text-left" *ngIf="arcade&&sawGame">
     <div class="col-md-4">
-        <button class="btn btn-warning btn-circle" (click)= "useJoker(1)"   *ngIf="comodinMultiplicador">X2</button>
-        <button class="btn btn-warning btn-circle"    *ngIf="!comodinMultiplicador" disabled>X2</button>
-        <button class="btn btn-info btn-circle" (click)= "useJoker(2)"   *ngIf="comodinVolteo"><i class="fa fa-eye"></i></button>
-        <button class="btn btn-info btn-circle"    *ngIf="!comodinVolteo" disabled><i class="fa fa-eye"></i></button>
+        <div id="normal-button">
+            <button class="btn btn-warning btn-circle" (click)= "useJoker(1)"  *ngIf="comodinMultiplicador">X2</button>
+            <button class="btn btn-warning btn-circle"    *ngIf="!comodinMultiplicador" disabled>X2</button>
+            <button class="btn btn-info btn-circle" (click)= "useJoker(2)"  *ngIf="comodinVolteo"><i class="fa fa-eye"></i></button>
+            <button class="btn btn-info btn-circle"    *ngIf="!comodinVolteo" disabled><i class="fa fa-eye"></i></button>
+        </div>
     </div>
 </div>
 <div class="text-center" *ngIf="survival&&sawGame">

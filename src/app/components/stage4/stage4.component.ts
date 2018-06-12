@@ -198,6 +198,7 @@ export class Stage4Component implements OnInit {
           }
           break;
     case 2:
+          this.comodinVolteo = false;
           this.toggle();
           setTimeout(()=>{ 
             if (this.sound){
@@ -211,7 +212,6 @@ export class Stage4Component implements OnInit {
             this.toggle();
           },3000); 
           setTimeout(()=>{    
-            this.comodinVolteo = false;
             localStorage.setItem('comodinVolteo', "0");
             for(let i=0;i<this.urlFilesSplitted.length;i++){
               this.changeUrl(i,true);
